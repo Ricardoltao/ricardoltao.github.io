@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-03-03T09:09:23.662Z</updated>
+  <updated>2020-03-06T13:01:48.313Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>动态规划</title>
+    <link href="http://yoursite.com/2020/03/06/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/"/>
+    <id>http://yoursite.com/2020/03/06/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</id>
+    <published>2020-03-06T07:45:49.000Z</published>
+    <updated>2020-03-06T13:01:48.313Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="动态规划算法"><a href="#动态规划算法" class="headerlink" title="动态规划算法"></a>动态规划算法</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>对于算法之类的问题，知识点还是有点薄弱，今天就来认识一下什么是动态规划算法，查漏补缺，每天学习一点。</p><p>动态规划是一种分阶段解决问题的数学思想，简单的来说就是<strong>大事化小，小事化了</strong>。</p><p>动态规划中有三个核心概念：</p><ul><li>最优子结构</li><li>边界</li><li>状态转移公式</li></ul><p><strong>举一个例子</strong>：</p><p><img src="dp.png" alt="dp"></p><p>假设只能通过road1或road2两条路径到达终点，到达road1有x条路径，到达road2有y条路径，所以到达终点的可能性就是 x+y </p><p><strong>另一个列子</strong>：</p><p>有一个只能容纳10本书的单层书架，你每次只能放1本或2本书。要求用程序求出你将书架填满一共有多少种方法。</p><p>从书架上为0到放满的方法总数<strong>等于</strong>0本到9本的方法总数<strong>加</strong>0到8本的方法总数。也就是F(10)=F(8)+F(9)，依次类推得到：<strong>F(n) = F(n-1)+F(n-2)（n&gt;=3）</strong></p><ul><li>最优子结构：F(10)=F(8)+F(9)</li><li>边界：当书架直接只有1 或 2 本书要放时，我们可以直接得到结果，无需花间，我们称F(1)和F(2)为边界。</li><li>状态转移公式：F(n) = F(n-1)+F(n-2)</li></ul><h2 id="leecode"><a href="#leecode" class="headerlink" title="leecode"></a>leecode</h2><p><a href="https://leetcode-cn.com/problems/unique-paths-ii/" target="_blank" rel="noopener">原题地址</a></p><h3 id="不同路径II"><a href="#不同路径II" class="headerlink" title="不同路径II"></a>不同路径II</h3><p>一个机器人位于一个 m x n 网格的左上角 （起始点在下图中标记为“Start” ）。</p><p>机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角（在下图中标记为“Finish”）。</p><p>现在考虑网格中有障碍物。那么从左上角到右下角将会有多少条不同的路径？</p><p><img src="robot_maze.png" alt="robot_maze"></p><p>网格中的障碍物和空位置分别用 <code>1</code> 和 <code>0</code> 来表示。</p><p><strong>说明：</strong> <em>m</em> 和 <em>n</em> 的值均不超过 100。</p><blockquote><p>示例 1:</p><p>输入:<br>[<br>  [0,0,0],<br>  [0,1,0],<br>  [0,0,0]<br>]<br>输出: 2<br>解释:<br>3x3 网格的正中间有一个障碍物。<br>从左上角到右下角一共有 2 条不同的路径：</p><ol><li>向右 -&gt; 向右 -&gt; 向下 -&gt; 向下</li><li>向下 -&gt; 向下 -&gt; 向右 -&gt; 向右</li></ol></blockquote><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @param &#123;number[][]&#125; obstacleGrid</span></span><br><span class="line"><span class="comment"> * @return &#123;number&#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">var</span> uniquePathsWithObstacles = <span class="function"><span class="keyword">function</span>(<span class="params">obstacleGrid</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> m = obstacleGrid.length,</span><br><span class="line">        n = obstacleGrid[<span class="number">0</span>].length;</span><br><span class="line">    <span class="keyword">if</span>(obstacleGrid[<span class="number">0</span>][<span class="number">0</span>] == <span class="number">1</span> || obstacleGrid[m<span class="number">-1</span>][n<span class="number">-1</span>] == <span class="number">1</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="comment">//用数组记录每一次的结果</span></span><br><span class="line">    <span class="keyword">let</span> dp = [];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>;i&lt;m;i++)&#123;</span><br><span class="line">        dp[i]=[];</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">let</span> j=<span class="number">0</span>;j&lt;n;j++)&#123;</span><br><span class="line">            <span class="comment">// 若该节点为0，表示通向该节点的路径为0</span></span><br><span class="line">            <span class="keyword">if</span>(obstacleGrid[i][j] == <span class="number">1</span>)&#123;</span><br><span class="line">                dp[i][j]=<span class="number">0</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(i==<span class="number">0</span>)&#123;</span><br><span class="line">                <span class="comment">//对于n行1列来说，该节点的路径是依赖于左边的节点</span></span><br><span class="line">                dp[i][j] = dp[i][j<span class="number">-1</span>] == <span class="number">0</span> ? <span class="number">0</span> : <span class="number">1</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(j==<span class="number">0</span>)&#123;</span><br><span class="line">                dp[i][j] = dp[i<span class="number">-1</span>][j] == <span class="number">0</span> ? <span class="number">0</span> : <span class="number">1</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                dp[i][j] = dp[i<span class="number">-1</span>][j] + dp[i][j<span class="number">-1</span>];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dp[m<span class="number">-1</span>][n<span class="number">-1</span>]    </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><h2 id="参考连接"><a href="#参考连接" class="headerlink" title="参考连接"></a>参考连接</h2><blockquote><p><a href="https://juejin.im/post/5cde316f6fb9a07ed9118f01#heading-2" target="_blank" rel="noopener">https://juejin.im/post/5cde316f6fb9a07ed9118f01#heading-2</a></p></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;动态规划算法&quot;&gt;&lt;a href=&quot;#动态规划算法&quot; class=&quot;headerlink&quot; title=&quot;动态规划算法&quot;&gt;&lt;/a&gt;动态规划算法&lt;/h1&gt;&lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;
+      
+    
+    </summary>
+    
+    
+      <category term="数据结构与算法" scheme="http://yoursite.com/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/"/>
+    
+    
+      <category term="动态规划" scheme="http://yoursite.com/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/"/>
+    
+  </entry>
   
   <entry>
     <title>跨域</title>
@@ -264,11 +290,11 @@
       <category term="计算机基础" scheme="http://yoursite.com/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/"/>
     
     
+      <category term="HTTP" scheme="http://yoursite.com/tags/HTTP/"/>
+    
       <category term="TCP" scheme="http://yoursite.com/tags/TCP/"/>
     
       <category term="UDP" scheme="http://yoursite.com/tags/UDP/"/>
-    
-      <category term="HTTP" scheme="http://yoursite.com/tags/HTTP/"/>
     
       <category term="SOCKET" scheme="http://yoursite.com/tags/SOCKET/"/>
     
@@ -555,34 +581,6 @@
       <category term="ES6" scheme="http://yoursite.com/tags/ES6/"/>
     
       <category term="复习笔记" scheme="http://yoursite.com/tags/%E5%A4%8D%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Hexo写作命令大全</title>
-    <link href="http://yoursite.com/2019/12/12/Hexo%E5%86%99%E4%BD%9C%E5%91%BD%E4%BB%A4%E5%A4%A7%E5%85%A8/"/>
-    <id>http://yoursite.com/2019/12/12/Hexo%E5%86%99%E4%BD%9C%E5%91%BD%E4%BB%A4%E5%A4%A7%E5%85%A8/</id>
-    <published>2019-12-12T08:27:54.000Z</published>
-    <updated>2019-12-12T12:01:09.283Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="Hexo写作命令大全"><a href="#Hexo写作命令大全" class="headerlink" title="Hexo写作命令大全"></a>Hexo写作命令大全</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>作为一名前端程序员当然要有自己的博客存，以前用 markdown 写一些自己的学习笔记，但是写完之后都不会去回顾，因为存放在电脑上回顾起来比较麻烦。所以最近在着手自己的博客项目，但是对于 hexo 的一些写作命令并不是很熟悉，所以在网上找到了一些牛人前辈写的博客，下面开始练练手吧。</p><h2 id="简单介绍"><a href="#简单介绍" class="headerlink" title="简单介绍"></a>简单介绍</h2><p>在博客目录下执行如下命令新建一篇文章</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> hexo new [layout] &lt;title&gt;</span></span><br></pre></td></tr></table></figure><p>如果未指定文章的布局（layout），则默认使用 <code>post</code> 布局，生成的文档存放于 <code>source\_posts\</code> 目录下，打开后使用 Markdown 语法进行写作，保存后刷新浏览器即可看到文章。</p><h3 id="布局"><a href="#布局" class="headerlink" title="布局"></a>布局</h3><p>布局可以理解为新建文档时的一个模块，基于布局生成的文档将会继承布局的样式。</p><p>Hexo 默认有三种布局：<code>post</code>、 <code>page</code> 和 <code>draft</code>，用户可以在 <code>scaffolds</code> 目录下新建文档来自定义布局格式，还可以修改站点配置文件中的 <code>default_layout</code>参数来指定生成文档时的默认布局。</p><p><img src="http://q2e38owot.bkt.clouddn.com/image/study/hexo1.png" alt="image-20191212151710263"></p><h3 id="文章（post）"><a href="#文章（post）" class="headerlink" title="文章（post）"></a>文章（post）</h3><p>基于 <code>post</code> 布局生成的文档存在于 <code>source\_posts\</code> 目录下，该目录下的文档会作为博客正文显示在网站中。</p><h3 id="页面（page）"><a href="#页面（page）" class="headerlink" title="页面（page）"></a>页面（page）</h3><p><code>page</code> 布局用于生成类似 <strong>首页</strong> 和 <strong>归档</strong> 这样的页面。</p><h3 id="草稿（draft）"><a href="#草稿（draft）" class="headerlink" title="草稿（draft）"></a>草稿（draft）</h3><p><code>draft</code> 布局用于创建草稿，生成的文档存在于 source_drafts\ 目录中，默认配置下将不会把该目录下的文档渲染到网站中。</p><p>通过以下命令将草稿发布为正式文章：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo publish &lt;title&gt;</span><br></pre></td></tr></table></figure><hr><h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><h3 id="简写"><a href="#简写" class="headerlink" title="简写"></a>简写</h3><p><code>hexo n &quot;我的博客&quot;</code> == <code>hexo new &quot;我的博客&quot;</code> #新建文章<br><code>hexo p</code> == <code>hexo publish</code><br><code>hexo g</code> == <code>hexo generate</code>#生成<br><code>hexo s</code> == <code>hexo server</code> #启动服务预览<br><code>hexo d</code> == <code>hexo deploy</code>#部署</p><h3 id="服务器"><a href="#服务器" class="headerlink" title="服务器"></a>服务器</h3><p><code>hexo server</code> #Hexo 会监视文件变动并自动更新，您无须重启服务器。<br><code>hexo server -s</code> #静态模式<br><code>hexo server -p 5000</code> #更改端口<br><code>hexo server -i 192.168.1.1</code> #自定义 IP</p><p><code>hexo clean</code> #清除缓存 网页正常情况下可以忽略此条命令<br><code>hexo g</code> #生成静态网页<br><code>hexo d</code> #开始部署</p><hr><h2 id="插入图片"><a href="#插入图片" class="headerlink" title="插入图片"></a>插入图片</h2><p>Markdown 并不会保存插入的图片资源本身，只是记录了获取资源的链接。<br>在 Markdown 中插入一张图片的步骤：</p><ol><li>将图片上床到图床上</li><li>获取图片的连接</li><li>插入到 Markdown 中</li></ol><blockquote><p>引用连接:<br><a href="http://yearito.cn/posts/hexo-writing-skills.html" target="_blank" rel="noopener">http://yearito.cn/posts/hexo-writing-skills.html</a><br><a href="https://segmentfault.com/a/1190000002632530" target="_blank" rel="noopener">https://segmentfault.com/a/1190000002632530</a></p></blockquote>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;Hexo写作命令大全&quot;&gt;&lt;a href=&quot;#Hexo写作命令大全&quot; class=&quot;headerlink&quot; title=&quot;Hexo写作命令大全&quot;&gt;&lt;/a&gt;Hexo写作命令大全&lt;/h1&gt;&lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerli
-      
-    
-    </summary>
-    
-    
-      <category term="hexo" scheme="http://yoursite.com/categories/hexo/"/>
-    
-    
-      <category term="hexo常用命令" scheme="http://yoursite.com/tags/hexo%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"/>
-    
-      <category term="学习笔记" scheme="http://yoursite.com/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
     
   </entry>
   

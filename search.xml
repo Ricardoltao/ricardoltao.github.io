@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>动态规划</title>
+      <link href="/2020/03/06/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/"/>
+      <url>/2020/03/06/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</url>
+      
+        <content type="html"><![CDATA[<h1 id="动态规划算法"><a href="#动态规划算法" class="headerlink" title="动态规划算法"></a>动态规划算法</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>对于算法之类的问题，知识点还是有点薄弱，今天就来认识一下什么是动态规划算法，查漏补缺，每天学习一点。</p><p>动态规划是一种分阶段解决问题的数学思想，简单的来说就是<strong>大事化小，小事化了</strong>。</p><p>动态规划中有三个核心概念：</p><ul><li>最优子结构</li><li>边界</li><li>状态转移公式</li></ul><p><strong>举一个例子</strong>：</p><p><img src="dp.png" alt="dp"></p><p>假设只能通过road1或road2两条路径到达终点，到达road1有x条路径，到达road2有y条路径，所以到达终点的可能性就是 x+y </p><p><strong>另一个列子</strong>：</p><p>有一个只能容纳10本书的单层书架，你每次只能放1本或2本书。要求用程序求出你将书架填满一共有多少种方法。</p><p>从书架上为0到放满的方法总数<strong>等于</strong>0本到9本的方法总数<strong>加</strong>0到8本的方法总数。也就是F(10)=F(8)+F(9)，依次类推得到：<strong>F(n) = F(n-1)+F(n-2)（n&gt;=3）</strong></p><ul><li>最优子结构：F(10)=F(8)+F(9)</li><li>边界：当书架直接只有1 或 2 本书要放时，我们可以直接得到结果，无需花间，我们称F(1)和F(2)为边界。</li><li>状态转移公式：F(n) = F(n-1)+F(n-2)</li></ul><h2 id="leecode"><a href="#leecode" class="headerlink" title="leecode"></a>leecode</h2><p><a href="https://leetcode-cn.com/problems/unique-paths-ii/" target="_blank" rel="noopener">原题地址</a></p><h3 id="不同路径II"><a href="#不同路径II" class="headerlink" title="不同路径II"></a>不同路径II</h3><p>一个机器人位于一个 m x n 网格的左上角 （起始点在下图中标记为“Start” ）。</p><p>机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角（在下图中标记为“Finish”）。</p><p>现在考虑网格中有障碍物。那么从左上角到右下角将会有多少条不同的路径？</p><p><img src="robot_maze.png" alt="robot_maze"></p><p>网格中的障碍物和空位置分别用 <code>1</code> 和 <code>0</code> 来表示。</p><p><strong>说明：</strong> <em>m</em> 和 <em>n</em> 的值均不超过 100。</p><blockquote><p>示例 1:</p><p>输入:<br>[<br>  [0,0,0],<br>  [0,1,0],<br>  [0,0,0]<br>]<br>输出: 2<br>解释:<br>3x3 网格的正中间有一个障碍物。<br>从左上角到右下角一共有 2 条不同的路径：</p><ol><li>向右 -&gt; 向右 -&gt; 向下 -&gt; 向下</li><li>向下 -&gt; 向下 -&gt; 向右 -&gt; 向右</li></ol></blockquote><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @param &#123;number[][]&#125; obstacleGrid</span></span><br><span class="line"><span class="comment"> * @return &#123;number&#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">var</span> uniquePathsWithObstacles = <span class="function"><span class="keyword">function</span>(<span class="params">obstacleGrid</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> m = obstacleGrid.length,</span><br><span class="line">        n = obstacleGrid[<span class="number">0</span>].length;</span><br><span class="line">    <span class="keyword">if</span>(obstacleGrid[<span class="number">0</span>][<span class="number">0</span>] == <span class="number">1</span> || obstacleGrid[m<span class="number">-1</span>][n<span class="number">-1</span>] == <span class="number">1</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="comment">//用数组记录每一次的结果</span></span><br><span class="line">    <span class="keyword">let</span> dp = [];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>;i&lt;m;i++)&#123;</span><br><span class="line">        dp[i]=[];</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">let</span> j=<span class="number">0</span>;j&lt;n;j++)&#123;</span><br><span class="line">            <span class="comment">// 若该节点为0，表示通向该节点的路径为0</span></span><br><span class="line">            <span class="keyword">if</span>(obstacleGrid[i][j] == <span class="number">1</span>)&#123;</span><br><span class="line">                dp[i][j]=<span class="number">0</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(i==<span class="number">0</span>)&#123;</span><br><span class="line">                <span class="comment">//对于n行1列来说，该节点的路径是依赖于左边的节点</span></span><br><span class="line">                dp[i][j] = dp[i][j<span class="number">-1</span>] == <span class="number">0</span> ? <span class="number">0</span> : <span class="number">1</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(j==<span class="number">0</span>)&#123;</span><br><span class="line">                dp[i][j] = dp[i<span class="number">-1</span>][j] == <span class="number">0</span> ? <span class="number">0</span> : <span class="number">1</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                dp[i][j] = dp[i<span class="number">-1</span>][j] + dp[i][j<span class="number">-1</span>];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dp[m<span class="number">-1</span>][n<span class="number">-1</span>]    </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><h2 id="参考连接"><a href="#参考连接" class="headerlink" title="参考连接"></a>参考连接</h2><blockquote><p><a href="https://juejin.im/post/5cde316f6fb9a07ed9118f01#heading-2" target="_blank" rel="noopener">https://juejin.im/post/5cde316f6fb9a07ed9118f01#heading-2</a></p></blockquote>]]></content>
+      
+      
+      <categories>
+          
+          <category> 数据结构与算法 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 动态规划 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>跨域</title>
       <link href="/2020/03/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E8%B7%A8%E5%9F%9F/"/>
       <url>/2020/03/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E8%B7%A8%E5%9F%9F/</url>
@@ -236,11 +261,11 @@
       
         <tags>
             
+            <tag> HTTP </tag>
+            
             <tag> TCP </tag>
             
             <tag> UDP </tag>
-            
-            <tag> HTTP </tag>
             
             <tag> SOCKET </tag>
             
