@@ -1,6 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>cookie、session和token</title>
+    <url>/2020/03/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/cst/</url>
+    <content><![CDATA[<h1 id="cookie、session和token"><a href="#cookie、session和token" class="headerlink" title="cookie、session和token"></a>cookie、session和token</h1><h2 id="cookie"><a href="#cookie" class="headerlink" title="cookie"></a>cookie</h2><p>cookie是由浏览器生成发送给浏览器，浏览器把cookie以键值对的方式存储在某个目录下的文件中，下一次请求同一网站时会把该cookie发送给服务器。</p>
+<h3 id="缺陷"><a href="#缺陷" class="headerlink" title="缺陷"></a>缺陷</h3><ul>
+<li>ookie会被附加在每个HTTP请求中，所以无形中增加了流量。</li>
+<li>由于在HTTP请求中的Cookie是明文传递的，所以安全性成问题。（除非用HTTPS）</li>
+<li>Cookie的大小限制在4KB左右。对于复杂的存储需求来说是不够用的。<a id="more"></a>
+<h3 id="Cookie，SessionStorage，LocalStorage"><a href="#Cookie，SessionStorage，LocalStorage" class="headerlink" title="Cookie，SessionStorage，LocalStorage"></a>Cookie，SessionStorage，LocalStorage</h3></li>
+</ul>
+<p>HTML5提供了两种本地存储的方式 sessionStorage 和 localStorage；</p>
+<p><img src="cookie.jpg" alt="cookie"></p>
+<h2 id="session"><a href="#session" class="headerlink" title="session"></a>session</h2><p>session代表会话，服务器为了区分每个客户端，给客户端分配不同的”身份标识”，然后客户端每次想服务器发请求的识货，都带上这个“身份标识”，服务器就知道这个请求是哪个客户端发的了。</p>
+<h3 id="过程-服务端session-客户端-sessionId"><a href="#过程-服务端session-客户端-sessionId" class="headerlink" title="过程(服务端session + 客户端 sessionId)"></a>过程(服务端session + 客户端 sessionId)</h3><p><img src="session.jpg" alt="session"></p>
+<ol>
+<li><p>用户向服务器发送用户名和密码</p>
+</li>
+<li><p>服务器验证通过后,在当前对话(session)里面保存相关数据,比如用户角色, 登陆时间等;</p>
+</li>
+<li><p>服务器向用户返回一个<code>session_id</code>, 写入用户的<code>cookie</code></p>
+</li>
+<li><p>用户随后的每一次请求, 都会通过<code>cookie</code>, 将<code>session_id</code>传回服务器</p>
+</li>
+<li><p>服务端收到 <code>session_id</code>, 找到前期保存的数据, 由此得知用户的身份</p>
+</li>
+</ol>
+<h2 id="token"><a href="#token" class="headerlink" title="token"></a>token</h2><p>token是服务端生成的一串字符串,以作客户端进行请求的令牌,当第一次登陆后,服务器生成一个token便将此token返回给客户端,以后客户端只要带上这个token前来请求数据即可,无需再次带上用户名和密码</p>
+<h3 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h3><p><img src="token.jpg" alt="token"></p>
+<ol>
+<li>用户通过用户名和密码发送请求</li>
+<li>程序验证</li>
+<li>程序返回一个签名的token给客户端</li>
+<li>客户端储存token, 并且每次用每次发送请求</li>
+<li>服务端验证Token并返回数据</li>
+</ol>
+<h3 id="JWT"><a href="#JWT" class="headerlink" title="JWT"></a>JWT</h3><ul>
+<li>头部</li>
+<li>负载</li>
+<li>签名</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://jwt.io/" target="_blank" rel="noopener">jwt</a></li>
+<li><a href="https://www.cnblogs.com/moyand/p/9047978.html" target="_blank" rel="noopener">彻底理解cookie，session，token</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2018/07/json_web_token-tutorial.html" target="_blank" rel="noopener">JSON Web Token 入门教程</a></li>
+<li><a href="https://www.jianshu.com/p/bd1be47a16c1" target="_blank" rel="noopener">Cookie、Session、Token那点事儿（原创）</a></li>
+</ul>
+<ul>
+<li><a href="https://juejin.im/post/5d01f82cf265da1b67210869#heading-15" target="_blank" rel="noopener">详解 Cookie，Session，Token</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>计算机基础</category>
+      </categories>
+      <tags>
+        <tag>cookie</tag>
+        <tag>session</tag>
+        <tag>token</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>计算机基础/cst</title>
+    <url>/2020/03/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80-cst/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
     <title>跨域</title>
     <url>/2020/03/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E8%B7%A8%E5%9F%9F/</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>跨域是一个常考点，平常也有所了解，在这里做一个简单的总结。</p>
