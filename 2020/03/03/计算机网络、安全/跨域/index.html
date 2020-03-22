@@ -92,11 +92,11 @@
 <meta name="keywords" content="跨域,CORS,JSONP">
 <meta property="og:type" content="article">
 <meta property="og:title" content="跨域">
-<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;03&#x2F;03&#x2F;%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80&#x2F;%E8%B7%A8%E5%9F%9F&#x2F;index.html">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;03&#x2F;03&#x2F;%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E3%80%81%E5%AE%89%E5%85%A8&#x2F;%E8%B7%A8%E5%9F%9F&#x2F;index.html">
 <meta property="og:site_name" content="RicardoJiang&#39;s Blog">
 <meta property="og:description" content="前言跨域是一个常考点，平常也有所了解，在这里做一个简单的总结。 什么是跨域跨域是指当前域名下想请求另一个域名下的资源但是由于同源策略的限制，而不能直接发送请求请求。 同源策略同源是指：协议+域名+端口 三者相同，如果缺少同源策略很容易受到XSS、CSFR等攻击。 跨域解决方案Jsonp通常为了减轻web服务器的负载，我们把js、css、img等静态资源分离到另一个独立域名的服务器上，在html页面">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-03-20T06:55:11.132Z">
+<meta property="og:updated_time" content="2020-03-22T06:32:26.000Z">
 <meta name="twitter:card" content="summary">
 
 
@@ -127,7 +127,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2020/03/03/计算机基础/跨域/"/>
+  <link rel="canonical" href="http://yoursite.com/2020/03/03/计算机网络、安全/跨域/"/>
 
 
 
@@ -349,7 +349,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E8%B7%A8%E5%9F%9F/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E3%80%81%E5%AE%89%E5%85%A8/%E8%B7%A8%E5%9F%9F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Ricardo Jiang">
@@ -384,7 +384,19 @@
             
 
             
+              <span class="post-meta-divider">|</span>
+            
 
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2020-03-22T14:32:26+08:00">
+                2020-03-22
+              </time>
             
           </span>
 
@@ -401,8 +413,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index">
-                    <span itemprop="name">网络</span>
+                  <a href="/categories/%E5%AE%89%E5%85%A8/" itemprop="url" rel="index">
+                    <span itemprop="name">安全</span>
                   </a>
                 </span>
 
@@ -418,7 +430,7 @@
 
           
           
-             <span id="/2020/03/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E8%B7%A8%E5%9F%9F/" class="leancloud_visitors" data-flag-title="跨域">
+             <span id="/2020/03/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E3%80%81%E5%AE%89%E5%85%A8/%E8%B7%A8%E5%9F%9F/" class="leancloud_visitors" data-flag-title="跨域">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -443,7 +455,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  469
+                  1.3k
                 </span>
               
 
@@ -459,7 +471,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  1
+                  5
                 </span>
               
             </div>
@@ -488,11 +500,50 @@
 <p>具体代码：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">jsonp</span>(<span class="params">url,jsonpCallback,success</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">let</span> script = <span class="built_in">document</span>.creatElement(<span class="string">'script'</span>)</span><br><span class="line">    script.src = url</span><br><span class="line">    script.async = <span class="literal">true</span></span><br><span class="line">    script.type = <span class="string">'text/javascript'</span></span><br><span class="line">    <span class="comment">// 约定一个callback字段名，来传递函数名，前端通过该函数来拿到数据</span></span><br><span class="line">    <span class="built_in">window</span>[jsonpCallback] = <span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</span><br><span class="line">        success &amp;&amp; success(data)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">document</span>.body.appendChild(script)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">jsonp(<span class="string">'http://xxx'</span>, <span class="string">'callback'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">value</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(value)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 
+<h4 id="JSONP的缺点"><a href="#JSONP的缺点" class="headerlink" title="JSONP的缺点"></a>JSONP的缺点</h4><ul>
+<li>由于是 <code>script</code> 标签，所以读不到 <code>ajax</code> 那么精确的状态，不知道状态码是什么，也不知道响应头是什么，它只知道成功和失败。</li>
+<li>不支持<code>post</code>（因为是 <code>script</code> 标签，所以只支持 <code>get</code> 请求）</li>
+</ul>
+<h3 id="CORS"><a href="#CORS" class="headerlink" title="CORS"></a>CORS</h3><h4 id="什么是CORS"><a href="#什么是CORS" class="headerlink" title="什么是CORS"></a>什么是CORS</h4><p><code>CORS</code> 的全称是 <strong>跨域资源共享</strong>(Cross-origin resource sharing)。它允许浏览器向跨域服务器，发出 <code>XMLHTTPRequest</code>，从而克服了 AJAX 只能同源使用的限制。</p>
+<p>如果<code>wang.com</code>和<code>ergou.com</code>这两个网站都是我的，我就是想让<code>wang.com</code>去访问<code>ergou.com</code>里面的数据应该怎么办呢？</p>
+<p>只需要<code>wang.com</code>在响应头里写<code>ergou.com</code>可以访问即可。这就是<code>CORS</code>。</p>
+<p>实现<code>CORS</code>通信的关键是服务器。只要服务器实现了<code>CORS</code>接口，就可以跨源通信。</p>
+<h4 id="两种请求"><a href="#两种请求" class="headerlink" title="两种请求"></a>两种请求</h4><p><code>CORS</code> 跨域分为两种请求，一种是<strong>简单请求</strong>，另一种是<strong>复杂请求</strong>。</p>
+<h5 id="简单请求"><a href="#简单请求" class="headerlink" title="简单请求"></a>简单请求</h5><p>只要满足以下条件的就是简单请求：</p>
+<ul>
+<li><p>请求方式为<code>HEAD</code>、<code>POST</code> 或者 <code>GET</code></p>
+</li>
+<li><p>http头信息不超出以下字段：<code>Accept</code>、<code>Accept-Language</code> 、 <code>Content-Language</code>、 <code>Last-Event-ID</code>、 <code>Content-Type</code>(限于三个值：<code>application/x-www-form-urlencoded</code>、<code>multipart/form-data</code>、<code>text/plain</code>)</p>
+</li>
+</ul>
+<p>简单请求的实现具体来说就是在信息头中加入一个<code>Origin</code>字段：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">GET /cors HTTP/<span class="number">1.1</span></span><br><span class="line">Origin: http:<span class="comment">//wang.com</span></span><br><span class="line">Host: api.ergou.com</span><br><span class="line">Accept-Language: en-US</span><br><span class="line">Connection: keep-alive</span><br><span class="line">User-Agent: Mozilla/<span class="number">5.0</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
 
+<p><code>Origin</code>的作用就是用来说明本次请求来自哪个源，服务器会根据<code>Origin</code>的值来判断是否接受本次请求。</p>
+<p>如果<code>Origin</code>所表示的源不被服务器接受，即浏览器发现回应的信息头中没有<code>Access-Control-Allow-Origin</code>字段，就会自动抛出一个错误。</p>
+<p>注意：这种错误是无法通过状态码识别的，这也是通过<code>CORS</code>实现跨域请求的一个弊端。</p>
+<p>如果<code>Origin</code>所表示的源被服务器端所接受，那么服务器就会返回如下响应：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Access-Control-Allow-Origin: http:<span class="comment">//api.ergou.com</span></span><br><span class="line">Access-Control-Allow-Credentials: <span class="literal">true</span></span><br><span class="line">Access-Control-Expose-Headers: FooBar</span><br><span class="line">Content-Type: text/html; charset=utf<span class="number">-8</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="CORS"><a href="#CORS" class="headerlink" title="CORS"></a>CORS</h3><p>他允许浏览器向跨域服务器发出XMLHTTPRequest请求，从而克服跨域问题，他需要浏览器和服务器同时支持。</p>
-<p>服务器端需需要添加一些头部属性，客户端需要增加orgin字段</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 引入http库</span></span><br><span class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">'http'</span>);</span><br><span class="line"></span><br><span class="line">http.createServer(<span class="function"><span class="keyword">function</span> (<span class="params">request, response</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    response.writeHead(<span class="number">200</span>, &#123;</span><br><span class="line">      <span class="comment">// 字段</span></span><br><span class="line">      <span class="string">'Content-Type'</span>: <span class="string">'text/plain'</span>,</span><br><span class="line">      <span class="comment">// 允许请求的地址</span></span><br><span class="line">      <span class="string">'Access-Control-Allow-Origin'</span>: <span class="string">'*'</span>,</span><br><span class="line">      <span class="comment">// 请求方法</span></span><br><span class="line">      <span class="string">'Access-Control-Allow-Methods'</span>: <span class="string">'GET, POST, PUT'</span></span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    response.end(<span class="string">'request success!!!'</span>);</span><br><span class="line">&#125;).listen(<span class="number">8888</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'Server running at http://127.0.0.1:8888/'</span>);</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p><code>Access-Control-Allow-Origin</code> :该字段是必须的。它的值要么是请求时<code>Origin</code>字段的值，要么是一个<code>*</code>，表示接受任意域名的请求</p>
+</li>
+<li><p><code>Access-Control-Allow-Credentials</code>: 该字段可选。它的值是一个布尔值，表示是否允许发送<code>Cookie</code>。默认情况下，<code>Cookie</code>不包括在<code>CORS</code>请求之中。设为<code>true</code>，即表示服务器明确许可，<code>Cookie</code>可以包含在请求中，一起发给服务器。这个值也<strong>只能设为<code>true</code></strong>，如果服务器不要浏览器发送<code>Cookie</code>，删除该字段即可。(注意：如果要发送<code>cookie</code>，不仅要进行上述的设置，还要在<code>AJAX</code>请求中设置<code>withCredentials</code>属性）</p>
+</li>
+<li><p><code>Access-Control-Expose-Headers</code>:该字段可选。<code>CORS</code>请求时，<code>XMLHttpRequest</code>对象的<code>getResponseHeader()</code>方法只能拿到6个基本字段：<code>Cache-Control</code>、<code>Content-Language</code>、<code>Content-Type</code>、<code>Expires</code>、<code>Last-Modified</code>、<code>Pragma</code>。如果想拿到其他字段，就必须在<code>Access-Control-Expose-Headers</code>里面指定。</p>
+</li>
+</ul>
+<h5 id="复杂请求"><a href="#复杂请求" class="headerlink" title="复杂请求"></a>复杂请求</h5><p>所谓复杂请求，即不满足上述条件的请求就是复杂请求。</p>
+<p>比如请求的方法是<code>PUT</code>或<code>DELETE</code>，或者<code>Content-Type</code>字段的类型是<code>application/json</code>。</p>
+<p>复杂请求首先会发起一个预检请求，该请求是 <code>option</code> 方法的，通过该请求来知道服务端是否允许跨域请求。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> url = <span class="string">'http://api.wang.com/cors'</span>;</span><br><span class="line"><span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest();</span><br><span class="line">xhr.open(<span class="string">'PUT'</span>, url, <span class="literal">true</span>);</span><br><span class="line">xhr.setRequestHeader(<span class="string">'X-Custom-Header'</span>, <span class="string">'value'</span>);</span><br><span class="line">xhr.send();</span><br></pre></td></tr></table></figure>
+
+<p>上面的请求就是一个复杂请求，当浏览器发现这是一个复杂请求之后，就会主动发出一个预检请求，询问服务器是否允许本次请求。</p>
+<p>服务器收到预检请求之后，检查了<code>Origin</code>、<code>Access-Control-Request-Method</code>和<code>Access-Control-Request-Headers</code>字段以后，确认允许跨源请求，才会做出相应的回应。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Access-Control-Allow-Origin: http://api.wang.com</span><br><span class="line">Content-Type: text/html; charset=utf-8</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<h4 id="CORS存在的问题"><a href="#CORS存在的问题" class="headerlink" title="CORS存在的问题"></a>CORS存在的问题</h4><p>不支持<code>IE8/9</code>，如果要在<code>IE8/9</code>使用<code>CORS</code>跨域需要使用<code>XDomainRequest</code>对象来支持<code>CORS</code>。</p>
+
       
     </div>
     
@@ -619,7 +670,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-count">28</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -630,7 +681,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -697,7 +748,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是跨域"><span class="nav-number">2.</span> <span class="nav-text">什么是跨域</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#同源策略"><span class="nav-number">2.0.1.</span> <span class="nav-text">同源策略</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#跨域解决方案"><span class="nav-number">3.</span> <span class="nav-text">跨域解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Jsonp"><span class="nav-number">3.1.</span> <span class="nav-text">Jsonp</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CORS"><span class="nav-number">3.2.</span> <span class="nav-text">CORS</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是跨域"><span class="nav-number">2.</span> <span class="nav-text">什么是跨域</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#同源策略"><span class="nav-number">2.0.1.</span> <span class="nav-text">同源策略</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#跨域解决方案"><span class="nav-number">3.</span> <span class="nav-text">跨域解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Jsonp"><span class="nav-number">3.1.</span> <span class="nav-text">Jsonp</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#JSONP的缺点"><span class="nav-number">3.1.1.</span> <span class="nav-text">JSONP的缺点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CORS"><span class="nav-number">3.2.</span> <span class="nav-text">CORS</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是CORS"><span class="nav-number">3.2.1.</span> <span class="nav-text">什么是CORS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#两种请求"><span class="nav-number">3.2.2.</span> <span class="nav-text">两种请求</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#简单请求"><span class="nav-number">3.2.2.1.</span> <span class="nav-text">简单请求</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#复杂请求"><span class="nav-number">3.2.2.2.</span> <span class="nav-text">复杂请求</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CORS存在的问题"><span class="nav-number">3.2.3.</span> <span class="nav-text">CORS存在的问题</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
@@ -742,7 +793,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共33.5k字</span>
+  <span class="post-count">博客全站共34.4k字</span>
 </div>
 
         

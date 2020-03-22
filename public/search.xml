@@ -1,8 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>跨域</title>
+    <url>/2020/03/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E3%80%81%E5%AE%89%E5%85%A8/%E8%B7%A8%E5%9F%9F/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>跨域是一个常考点，平常也有所了解，在这里做一个简单的总结。</p>
+<h2 id="什么是跨域"><a href="#什么是跨域" class="headerlink" title="什么是跨域"></a>什么是跨域</h2><p>跨域是指当前域名下想请求另一个域名下的资源但是由于同源策略的限制，而不能直接发送请求请求。</p>
+<h4 id="同源策略"><a href="#同源策略" class="headerlink" title="同源策略"></a>同源策略</h4><p>同源是指：协议+域名+端口 三者相同，如果缺少同源策略很容易受到XSS、CSFR等攻击。</p>
+<h2 id="跨域解决方案"><a href="#跨域解决方案" class="headerlink" title="跨域解决方案"></a>跨域解决方案</h2><h3 id="Jsonp"><a href="#Jsonp" class="headerlink" title="Jsonp"></a>Jsonp</h3><p>通常为了减轻web服务器的负载，我们把js、css、img等静态资源分离到另一个独立域名的服务器上，在html页面中通过相应的标签从不同域名下加载静态资源，而被浏览器允许，基于此原理，我们可以通过动态创建script，再请求一个带参网址实现跨域通信。</p>
+<p>利用<code>&lt;script&gt;</code>标签没有跨域限制，将src设置为需要访问的url，并提供一个回调函数来接收数据。只限于get请求。</p>
+<p>具体代码：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">jsonp</span>(<span class="params">url,jsonpCallback,success</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">let</span> script = <span class="built_in">document</span>.creatElement(<span class="string">'script'</span>)</span><br><span class="line">    script.src = url</span><br><span class="line">    script.async = <span class="literal">true</span></span><br><span class="line">    script.type = <span class="string">'text/javascript'</span></span><br><span class="line">    <span class="comment">// 约定一个callback字段名，来传递函数名，前端通过该函数来拿到数据</span></span><br><span class="line">    <span class="built_in">window</span>[jsonpCallback] = <span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</span><br><span class="line">        success &amp;&amp; success(data)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">document</span>.body.appendChild(script)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">jsonp(<span class="string">'http://xxx'</span>, <span class="string">'callback'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">value</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(value)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h4 id="JSONP的缺点"><a href="#JSONP的缺点" class="headerlink" title="JSONP的缺点"></a>JSONP的缺点</h4><ul>
+<li>由于是 <code>script</code> 标签，所以读不到 <code>ajax</code> 那么精确的状态，不知道状态码是什么，也不知道响应头是什么，它只知道成功和失败。</li>
+<li>不支持<code>post</code>（因为是 <code>script</code> 标签，所以只支持 <code>get</code> 请求）</li>
+</ul>
+<h3 id="CORS"><a href="#CORS" class="headerlink" title="CORS"></a>CORS</h3><h4 id="什么是CORS"><a href="#什么是CORS" class="headerlink" title="什么是CORS"></a>什么是CORS</h4><p><code>CORS</code> 的全称是 <strong>跨域资源共享</strong>(Cross-origin resource sharing)。它允许浏览器向跨域服务器，发出 <code>XMLHTTPRequest</code>，从而克服了 AJAX 只能同源使用的限制。</p>
+<p>如果<code>wang.com</code>和<code>ergou.com</code>这两个网站都是我的，我就是想让<code>wang.com</code>去访问<code>ergou.com</code>里面的数据应该怎么办呢？</p>
+<p>只需要<code>wang.com</code>在响应头里写<code>ergou.com</code>可以访问即可。这就是<code>CORS</code>。</p>
+<p>实现<code>CORS</code>通信的关键是服务器。只要服务器实现了<code>CORS</code>接口，就可以跨源通信。</p>
+<h4 id="两种请求"><a href="#两种请求" class="headerlink" title="两种请求"></a>两种请求</h4><p><code>CORS</code> 跨域分为两种请求，一种是<strong>简单请求</strong>，另一种是<strong>复杂请求</strong>。</p>
+<h5 id="简单请求"><a href="#简单请求" class="headerlink" title="简单请求"></a>简单请求</h5><p>只要满足以下条件的就是简单请求：</p>
+<ul>
+<li><p>请求方式为<code>HEAD</code>、<code>POST</code> 或者 <code>GET</code></p>
+</li>
+<li><p>http头信息不超出以下字段：<code>Accept</code>、<code>Accept-Language</code> 、 <code>Content-Language</code>、 <code>Last-Event-ID</code>、 <code>Content-Type</code>(限于三个值：<code>application/x-www-form-urlencoded</code>、<code>multipart/form-data</code>、<code>text/plain</code>)</p>
+</li>
+</ul>
+<p>简单请求的实现具体来说就是在信息头中加入一个<code>Origin</code>字段：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">GET /cors HTTP/<span class="number">1.1</span></span><br><span class="line">Origin: http:<span class="comment">//wang.com</span></span><br><span class="line">Host: api.ergou.com</span><br><span class="line">Accept-Language: en-US</span><br><span class="line">Connection: keep-alive</span><br><span class="line">User-Agent: Mozilla/<span class="number">5.0</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p><code>Origin</code>的作用就是用来说明本次请求来自哪个源，服务器会根据<code>Origin</code>的值来判断是否接受本次请求。</p>
+<p>如果<code>Origin</code>所表示的源不被服务器接受，即浏览器发现回应的信息头中没有<code>Access-Control-Allow-Origin</code>字段，就会自动抛出一个错误。</p>
+<p>注意：这种错误是无法通过状态码识别的，这也是通过<code>CORS</code>实现跨域请求的一个弊端。</p>
+<p>如果<code>Origin</code>所表示的源被服务器端所接受，那么服务器就会返回如下响应：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">Access-Control-Allow-Origin: http:<span class="comment">//api.ergou.com</span></span><br><span class="line">Access-Control-Allow-Credentials: <span class="literal">true</span></span><br><span class="line">Access-Control-Expose-Headers: FooBar</span><br><span class="line">Content-Type: text/html; charset=utf<span class="number">-8</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><code>Access-Control-Allow-Origin</code> :该字段是必须的。它的值要么是请求时<code>Origin</code>字段的值，要么是一个<code>*</code>，表示接受任意域名的请求</p>
+</li>
+<li><p><code>Access-Control-Allow-Credentials</code>: 该字段可选。它的值是一个布尔值，表示是否允许发送<code>Cookie</code>。默认情况下，<code>Cookie</code>不包括在<code>CORS</code>请求之中。设为<code>true</code>，即表示服务器明确许可，<code>Cookie</code>可以包含在请求中，一起发给服务器。这个值也<strong>只能设为<code>true</code></strong>，如果服务器不要浏览器发送<code>Cookie</code>，删除该字段即可。(注意：如果要发送<code>cookie</code>，不仅要进行上述的设置，还要在<code>AJAX</code>请求中设置<code>withCredentials</code>属性）</p>
+</li>
+<li><p><code>Access-Control-Expose-Headers</code>:该字段可选。<code>CORS</code>请求时，<code>XMLHttpRequest</code>对象的<code>getResponseHeader()</code>方法只能拿到6个基本字段：<code>Cache-Control</code>、<code>Content-Language</code>、<code>Content-Type</code>、<code>Expires</code>、<code>Last-Modified</code>、<code>Pragma</code>。如果想拿到其他字段，就必须在<code>Access-Control-Expose-Headers</code>里面指定。</p>
+</li>
+</ul>
+<h5 id="复杂请求"><a href="#复杂请求" class="headerlink" title="复杂请求"></a>复杂请求</h5><p>所谓复杂请求，即不满足上述条件的请求就是复杂请求。</p>
+<p>比如请求的方法是<code>PUT</code>或<code>DELETE</code>，或者<code>Content-Type</code>字段的类型是<code>application/json</code>。</p>
+<p>复杂请求首先会发起一个预检请求，该请求是 <code>option</code> 方法的，通过该请求来知道服务端是否允许跨域请求。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> url = <span class="string">'http://api.wang.com/cors'</span>;</span><br><span class="line"><span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest();</span><br><span class="line">xhr.open(<span class="string">'PUT'</span>, url, <span class="literal">true</span>);</span><br><span class="line">xhr.setRequestHeader(<span class="string">'X-Custom-Header'</span>, <span class="string">'value'</span>);</span><br><span class="line">xhr.send();</span><br></pre></td></tr></table></figure>
+
+<p>上面的请求就是一个复杂请求，当浏览器发现这是一个复杂请求之后，就会主动发出一个预检请求，询问服务器是否允许本次请求。</p>
+<p>服务器收到预检请求之后，检查了<code>Origin</code>、<code>Access-Control-Request-Method</code>和<code>Access-Control-Request-Headers</code>字段以后，确认允许跨源请求，才会做出相应的回应。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Access-Control-Allow-Origin: http://api.wang.com</span><br><span class="line">Content-Type: text/html; charset=utf-8</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<h4 id="CORS存在的问题"><a href="#CORS存在的问题" class="headerlink" title="CORS存在的问题"></a>CORS存在的问题</h4><p>不支持<code>IE8/9</code>，如果要在<code>IE8/9</code>使用<code>CORS</code>跨域需要使用<code>XDomainRequest</code>对象来支持<code>CORS</code>。</p>
+]]></content>
+      <categories>
+        <category>安全</category>
+      </categories>
+      <tags>
+        <tag>跨域</tag>
+        <tag>CORS</tag>
+        <tag>JSONP</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>cookie、session和token</title>
-    <url>/2020/03/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/cst/</url>
+    <url>/2020/03/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E3%80%81%E5%AE%89%E5%85%A8/cst/</url>
     <content><![CDATA[<h1 id="cookie、session和token"><a href="#cookie、session和token" class="headerlink" title="cookie、session和token"></a>cookie、session和token</h1><h2 id="cookie"><a href="#cookie" class="headerlink" title="cookie"></a>cookie</h2><p>cookie是由浏览器生成发送给浏览器，浏览器把cookie以键值对的方式存储在某个目录下的文件中，下一次请求同一网站时会把该cookie发送给服务器。</p>
 <h3 id="缺陷"><a href="#缺陷" class="headerlink" title="缺陷"></a>缺陷</h3><ul>
 <li>ookie会被附加在每个HTTP请求中，所以无形中增加了流量。</li>
@@ -57,36 +121,6 @@
         <tag>cookie</tag>
         <tag>session</tag>
         <tag>token</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>计算机基础/cst</title>
-    <url>/2020/03/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80-cst/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>跨域</title>
-    <url>/2020/03/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E8%B7%A8%E5%9F%9F/</url>
-    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>跨域是一个常考点，平常也有所了解，在这里做一个简单的总结。</p>
-<h2 id="什么是跨域"><a href="#什么是跨域" class="headerlink" title="什么是跨域"></a>什么是跨域</h2><p>跨域是指当前域名下想请求另一个域名下的资源但是由于同源策略的限制，而不能直接发送请求请求。</p>
-<h4 id="同源策略"><a href="#同源策略" class="headerlink" title="同源策略"></a>同源策略</h4><p>同源是指：协议+域名+端口 三者相同，如果缺少同源策略很容易受到XSS、CSFR等攻击。</p>
-<h2 id="跨域解决方案"><a href="#跨域解决方案" class="headerlink" title="跨域解决方案"></a>跨域解决方案</h2><h3 id="Jsonp"><a href="#Jsonp" class="headerlink" title="Jsonp"></a>Jsonp</h3><p>通常为了减轻web服务器的负载，我们把js、css、img等静态资源分离到另一个独立域名的服务器上，在html页面中通过相应的标签从不同域名下加载静态资源，而被浏览器允许，基于此原理，我们可以通过动态创建script，再请求一个带参网址实现跨域通信。</p>
-<p>利用<code>&lt;script&gt;</code>标签没有跨域限制，将src设置为需要访问的url，并提供一个回调函数来接收数据。只限于get请求。</p>
-<p>具体代码：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">jsonp</span>(<span class="params">url,jsonpCallback,success</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">let</span> script = <span class="built_in">document</span>.creatElement(<span class="string">'script'</span>)</span><br><span class="line">    script.src = url</span><br><span class="line">    script.async = <span class="literal">true</span></span><br><span class="line">    script.type = <span class="string">'text/javascript'</span></span><br><span class="line">    <span class="comment">// 约定一个callback字段名，来传递函数名，前端通过该函数来拿到数据</span></span><br><span class="line">    <span class="built_in">window</span>[jsonpCallback] = <span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</span><br><span class="line">        success &amp;&amp; success(data)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">document</span>.body.appendChild(script)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">jsonp(<span class="string">'http://xxx'</span>, <span class="string">'callback'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">value</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(value)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="CORS"><a href="#CORS" class="headerlink" title="CORS"></a>CORS</h3><p>他允许浏览器向跨域服务器发出XMLHTTPRequest请求，从而克服跨域问题，他需要浏览器和服务器同时支持。</p>
-<p>服务器端需需要添加一些头部属性，客户端需要增加orgin字段</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 引入http库</span></span><br><span class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">'http'</span>);</span><br><span class="line"></span><br><span class="line">http.createServer(<span class="function"><span class="keyword">function</span> (<span class="params">request, response</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    response.writeHead(<span class="number">200</span>, &#123;</span><br><span class="line">      <span class="comment">// 字段</span></span><br><span class="line">      <span class="string">'Content-Type'</span>: <span class="string">'text/plain'</span>,</span><br><span class="line">      <span class="comment">// 允许请求的地址</span></span><br><span class="line">      <span class="string">'Access-Control-Allow-Origin'</span>: <span class="string">'*'</span>,</span><br><span class="line">      <span class="comment">// 请求方法</span></span><br><span class="line">      <span class="string">'Access-Control-Allow-Methods'</span>: <span class="string">'GET, POST, PUT'</span></span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    response.end(<span class="string">'request success!!!'</span>);</span><br><span class="line">&#125;).listen(<span class="number">8888</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'Server running at http://127.0.0.1:8888/'</span>);</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>网络</category>
-      </categories>
-      <tags>
-        <tag>跨域</tag>
-        <tag>CORS</tag>
-        <tag>JSONP</tag>
       </tags>
   </entry>
   <entry>
@@ -155,7 +189,7 @@
   </entry>
   <entry>
     <title>轮询、长轮询、长连接、websocket</title>
-    <url>/2020/03/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E8%BD%AE%E8%AF%A2%E3%80%81%E9%95%BF%E8%BD%AE%E8%AF%A2%E3%80%81%E9%95%BF%E8%BF%9E%E6%8E%A5%E3%80%81websocket/</url>
+    <url>/2020/03/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E3%80%81%E5%AE%89%E5%85%A8/%E8%BD%AE%E8%AF%A2%E3%80%81%E9%95%BF%E8%BD%AE%E8%AF%A2%E3%80%81%E9%95%BF%E8%BF%9E%E6%8E%A5%E3%80%81websocket/</url>
     <content><![CDATA[<h1 id="轮询、长轮询、SSE、websocket"><a href="#轮询、长轮询、SSE、websocket" class="headerlink" title="轮询、长轮询、SSE、websocket"></a>轮询、长轮询、SSE、websocket</h1><h2 id="短轮询和长轮询"><a href="#短轮询和长轮询" class="headerlink" title="短轮询和长轮询"></a>短轮询和长轮询</h2><p>短轮询和长轮询的目的都是用哦关于实现客户端和服务端的一个即时通讯</p>
 <h3 id="短轮询"><a href="#短轮询" class="headerlink" title="短轮询"></a>短轮询</h3><p>短轮询的基本思路就是浏览器每隔一段时间向浏览器发送 http 请求，服务器端在收到请求后，不论是否有数据更新，都直接进行响应。</p>
 <p>这种方式实现的即时通信，本质上还是浏览器发送请求，服务器接收请求的一个过程，通过让客户端不断的进行请求，使得客户端能够模拟实时地收到服务端的数据变化</p>
@@ -445,7 +479,7 @@
   </entry>
   <entry>
     <title>HTTP</title>
-    <url>/2020/02/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/HTTP/</url>
+    <url>/2020/02/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E3%80%81%E5%AE%89%E5%85%A8/HTTP/</url>
     <content><![CDATA[<h1 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h1><p>超文本传输协议（HyperText Transfer Protocol）</p>
 <p>HTTP协议是建立在TCP协议基础之上的，当浏览器需要从服务器获取网页数据时，会发出一次HTTP请求。HTTP会通过TCP建立起一个到服务器的连接通道，当本次请求完毕后，HTTP会立即将TCP连接断开，这个过程很短。所以HTTP连接是一个短连接，是一种无状态连接。</p>
 <h2 id="http传输流"><a href="#http传输流" class="headerlink" title="http传输流"></a>http传输流</h2><p><img src="https://user-gold-cdn.xitu.io/2018/4/17/162d19df66466f6b?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
@@ -785,7 +819,7 @@
   </entry>
   <entry>
     <title>TCP、UDP、HTTP、SOCKET、WebSocket之间的区别</title>
-    <url>/2020/02/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/http,websocket%E5%92%8Csocket/</url>
+    <url>/2020/02/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E3%80%81%E5%AE%89%E5%85%A8/http,websocket%E5%92%8Csocket/</url>
     <content><![CDATA[<h1 id="TCP、UDP、HTTP、SOCKET、WebSocket之间的区别"><a href="#TCP、UDP、HTTP、SOCKET、WebSocket之间的区别" class="headerlink" title="TCP、UDP、HTTP、SOCKET、WebSocket之间的区别"></a>TCP、UDP、HTTP、SOCKET、WebSocket之间的区别</h1><p>TCP/IP协议族主要分为四层：应用层、传输层、网络层、数据链路层</p>
 <p>每层协议都有响应的协议，如下图：<br><img src="http://images.cnblogs.com/cnblogs_com/goodcandle/socket2.jpg" alt="img"></p>
 <h2 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h2><p>应用层协议，HTTP（超文本传输协议）是利用TCP在两台电脑（通常是Web服务器和客户端）之间传输信息的协议。客户端使用Web浏览器发起HTTP请求给Web服务器，Web服务器接收到请求处理后发送响应给客户端。</p>
