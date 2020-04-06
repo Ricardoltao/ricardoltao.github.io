@@ -24,13 +24,13 @@
 <ul>
 <li><p><code>dp[i][j]</code> 代表 word1 到 i 位置转换成 Word2 到 j 位置需要最少的步数</p>
 </li>
-<li><p>当 word1[i] == word2[j] 时，由于遍历到了 i 和 j，说明 word1 的 0<del>i-1 和 word2 的 0</del>j-1 的匹配结果已经生成，由于当前匹配的单词相同，因此无需做任何操作，<code>dp[i][j] = dp[i-1][j-1]</code></p>
+<li><p>当 word1[i] == word2[j] 时，由于遍历到了 i 和 j，说明 <code>word1 的 0~i-1 和 word2 的 0~j-1</code> 的匹配结果已经生成，由于当前匹配的单词相同，因此无需做任何操作，<code>dp[i][j] = dp[i-1][j-1]</code></p>
 </li>
 <li><p>当  word1[i] ！= word2[j] 时，有以下三个操作</p>
 <ul>
-<li>替换操作： word1 的 0<del>i-1 和 word2 的 0</del>j-1 位置字符都相同，只是当前位置字符不匹配，进行替换操作使其相同，所以就有 <code>dp[i][j] = dp[i-1][j-1]+1</code></li>
-<li>删除操作： word1 的 0<del>i-1 和 word2 的 0</del>j 位置字符已经匹配，此时多出了 word1 的 i 位置字符，应该将其删除，才能使此时 word1 的 0<del>i (这个i是执行了删除操作后新的i)和 word2 的 0</del>j 位置匹配,因此此时<code>dp[i][j]=dp[i-1][j]+1</code></li>
-<li>插入操作：若此时 word1 的 0<del>i 位置只是和 word2 的 0</del>j-1 位置匹配,此时只需要在原来的i位置后面插入一个和 word2 的 j 位置相同的字符使得此时的 word1 的 0<del>i (这个i是执行了插入操作后新的i)和 word2 的 0</del>j 匹配得上,所以此时<code>dp[i][j]=dp[i][j-1]+1</code></li>
+<li>替换操作： word1 的 <code>0~i-1 和 word2 的 0~j-1</code> 位置字符都相同，只是当前位置字符不匹配，进行替换操作使其相同，所以就有 <code>dp[i][j] = dp[i-1][j-1]+1</code></li>
+<li>删除操作： word1 的 <code>0~i-1 和 word2 的 0~j</code> 位置字符已经匹配，此时多出了 word1 的 i 位置字符，应该将其删除，才能使此时 <code>word1 的 0~i</code> (这个i是执行了删除操作后新的i)和 word2 的 0~j 位置匹配,因此此时<code>dp[i][j]=dp[i-1][j]+1</code></li>
+<li>插入操作：若此时 <code>word1 的 0~i 位置只是和 word2 的 0~j-1</code> 位置匹配,此时只需要在原来的i位置后面插入一个和 word2 的 j 位置相同的字符使得此时的 <code>word1 的 0~i</code> (这个i是执行了插入操作后新的i)和 word2 的 0~j 匹配得上,所以此时<code>dp[i][j]=dp[i][j-1]+1</code></li>
 <li>由于题目所要求的是要最少的操作数:所以当 word1[i]  !=  word2[j] 时,需要在这三个操作中选取一个最小的值赋格当前的<code>dp[i][j]</code></li>
 </ul>
 </li>
