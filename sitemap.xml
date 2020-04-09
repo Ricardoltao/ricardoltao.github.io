@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2020/04/09/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/TypeScript%E9%AB%98%E7%BA%A7%E7%B1%BB%E5%9E%8B/</loc>
+    
+    <lastmod>2020-04-09T09:17:26.701Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2020/03/03/%E6%AF%8F%E6%97%A5%E9%95%80%E9%87%91/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98%EF%BC%88%E4%BA%8C%EF%BC%89/</loc>
+    
+    <lastmod>2020-04-09T08:38:31.257Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2020/04/01/JavaScript/%E6%B7%B1%E6%8B%B7%E8%B4%9D%E5%92%8C%E6%B5%85%E6%8B%B7%E8%B4%9D/</loc>
     
     <lastmod>2020-04-09T06:55:58.878Z</lastmod>
@@ -54,13 +68,6 @@
     <loc>http://yoursite.com/2020/03/25/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/Set%E5%92%8CMap/</loc>
     
     <lastmod>2020-03-25T03:20:53.815Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2020/03/03/%E6%AF%8F%E6%97%A5%E9%95%80%E9%87%91/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98%EF%BC%88%E4%BA%8C%EF%BC%89/</loc>
-    
-    <lastmod>2020-03-22T06:54:19.942Z</lastmod>
     
   </url>
   

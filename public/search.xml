@@ -1,6 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>TypeScript高级类型</title>
+    <url>/2020/04/09/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/TypeScript%E9%AB%98%E7%BA%A7%E7%B1%BB%E5%9E%8B/</url>
+    <content><![CDATA[<h1 id="TypeScript-的高级类型"><a href="#TypeScript-的高级类型" class="headerlink" title="TypeScript 的高级类型"></a>TypeScript 的高级类型</h1><p>TypeScript 提供了高级类型，来满足更多类型的处理，主要分为：</p>
+<ul>
+<li>交叉类型：多种类型之和</li>
+<li>联合类型：多种类型之一</li>
+</ul>
+<h2 id="交叉类型"><a href="#交叉类型" class="headerlink" title="交叉类型"></a>交叉类型</h2><p>交叉类型是<strong>将多个类型合并为一个类型</strong>。这让我们可以把现有的多种类型叠加到一起成为一种类型，它包含了所需的所有类型的特性。</p>
+<p> 例如，<code>Person &amp; Loggable</code> 同时是 <code>Person</code> 和 <code>Loggable</code>。就是说这个类型的对象同时拥有了这两种类型的成员。</p>
+<p>我们大多是在混入（mixins）或其它不适合典型面向对象模型的地方看到交叉类型的使用。 （在 JavaScript 里发生这种情况的场合很多！） 下面是如何创建混入的一个简单例子：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">extend</span>&lt;<span class="title">T</span>, <span class="title">U</span>&gt; (<span class="params">first: T, second: U</span>): <span class="title">T</span> &amp; <span class="title">U</span> </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> result = &#123;&#125; <span class="keyword">as</span> T &amp; U</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> id <span class="keyword">in</span> first) &#123;</span><br><span class="line">    result[id] = first[id] <span class="keyword">as</span> any</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> id <span class="keyword">in</span> second) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!result.hasOwnProperty(id)) &#123;</span><br><span class="line">      result[id] = second[id] <span class="keyword">as</span> any</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span> (public name: string) &#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">interface Loggable &#123;</span><br><span class="line">  log (): <span class="keyword">void</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConsoleLogger</span> <span class="title">implements</span> <span class="title">Loggable</span> </span>&#123;</span><br><span class="line">  log () &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> jim = extend(<span class="keyword">new</span> Person(<span class="string">'Jim'</span>), <span class="keyword">new</span> ConsoleLogger())</span><br><span class="line"><span class="keyword">var</span> n = jim.name</span><br><span class="line">jim.log()</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="联合类型"><a href="#联合类型" class="headerlink" title="联合类型"></a>联合类型</h2><p>联合类型与交叉类型很有关联，但是使用上却完全不同。 偶尔你会遇到这种情况，一个代码库希望传入 <code>number</code> 或 <code>string</code> 类型的参数。 例如下面的函数：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">padLeft</span>(<span class="params">value: string, padding: any</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> padding === <span class="string">'number'</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Array</span>(padding + <span class="number">1</span>).join(<span class="string">' '</span>) + value</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> padding === <span class="string">'string'</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> padding + value</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">`Expected string or number, got '<span class="subst">$&#123;padding&#125;</span>'.`</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">padLeft(<span class="string">'Hello world'</span>, <span class="number">4</span>) <span class="comment">// returns "    Hello world"</span></span><br></pre></td></tr></table></figure>
+
+<p><code>padLeft</code> 存在一个问题，<code>padding</code> 参数的类型指定成了 <code>any</code>。 这就是说我们可以传入一个既不是 <code>number</code> 也不是 <code>string</code> 类型的参数，但是 TypeScript 却不报错。</p>
+<p>为了解决这个问题，我们可以使用 联合类型做为 <code>padding</code> 的参数：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">padLeft</span>(<span class="params">value: string, padding: string | number</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> indentedString = padLeft(<span class="string">'Hello world'</span>, <span class="literal">true</span>) <span class="comment">// 编译阶段报错</span></span><br></pre></td></tr></table></figure>
+
+<p>联合类型表示一个值可以是几种类型之一。我们用竖线（<code>|</code>）分隔每个类型，所以 <code>number | string</code> 表示一个值可以是 <code>number</code> 或 <code>string</code>。</p>
+<p>如果一个值是联合类型，我们只能访问此联合类型的所有类型里共有的成员。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">interface Bird &#123;</span><br><span class="line">  fly()</span><br><span class="line">  layEggs()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">interface Fish &#123;</span><br><span class="line">  swim()</span><br><span class="line">  layEggs()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getSmallPet</span>(<span class="params"></span>): <span class="title">Fish</span> | <span class="title">Bird</span> </span>&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> pet = getSmallPet()</span><br><span class="line">pet.layEggs() <span class="comment">// okay</span></span><br><span class="line">pet.swim()    <span class="comment">// error</span></span><br></pre></td></tr></table></figure>
+
+<p>这里的联合类型可能有点复杂：如果一个值的类型是 <code>A | B</code>，我们能够确定的是它包含了 <code>A</code> 和 <code>B</code> 中共有的成员。这个例子里，<code>Fish</code> 具有一个 <code>swim</code> 方法，我们不能确定一个 <code>Bird | Fish</code> 类型的变量是否有 <code>swim</code>方法。 如果变量在运行时是 <code>Bird</code> 类型，那么调用 <code>pet.swim()</code> 就出错了。</p>
+]]></content>
+      <categories>
+        <category>TypeScript</category>
+      </categories>
+      <tags>
+        <tag>TypeScript高级类型</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>每日一题（二）</title>
+    <url>/2020/03/03/%E6%AF%8F%E6%97%A5%E9%95%80%E9%87%91/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98%EF%BC%88%E4%BA%8C%EF%BC%89/</url>
+    <content><![CDATA[<h1 id="每日一题（二）"><a href="#每日一题（二）" class="headerlink" title="每日一题（二）"></a>每日一题（二）</h1><h2 id="常见的网站漏洞有哪些"><a href="#常见的网站漏洞有哪些" class="headerlink" title="常见的网站漏洞有哪些"></a>常见的网站漏洞有哪些</h2><p>有跨站脚本攻击（XSS）、跨站请求伪造（CSRF）、点击劫持、SQL注入、DDOS攻击、DNS劫持</p>
+<h2 id="简单介绍一下XSS以及XSS如何防御"><a href="#简单介绍一下XSS以及XSS如何防御" class="headerlink" title="简单介绍一下XSS以及XSS如何防御"></a>简单介绍一下XSS以及XSS如何防御</h2><p>跨站脚本攻击是说攻击者通过注入恶意脚本，在用户浏览页面的时候进行攻击，比如获取cookie或者其他用户身份信息。</p>
+<p>可以分为存储型和反射型：</p>
+<ul>
+<li>存储型是攻击者输入一些数据并且存储到了数据库中，其他浏览者看到的时候进行攻击</li>
+<li>反射型不存储在数据库中，往往表现为将攻击代码放在URL地址的请求参数中</li>
+</ul>
+<h3 id="如何防御"><a href="#如何防御" class="headerlink" title="如何防御"></a>如何防御</h3><ol>
+<li><strong>转义字符</strong>，对于用户输入的内容进行转义，如对引号、尖括号、斜杠进行转义</li>
+<li><strong>CSP</strong>，CSP本质上就是建立白名单，开发者明确告诉浏览器哪些外部资源可以加载和执行。我们只需要配置规则，如何拦截是由浏览器自己实现的。通常可以通过两种方式实现GSP：<ul>
+<li>设置HTTP Header中的Content-Security-Pplicy</li>
+<li>设置meta标签方式</li>
+</ul>
+</li>
+<li>输入内容长度控制</li>
+<li>HTTP-Only Cookie：禁止JavaScript读取某些敏感Cookie，攻击者完成XSS注入后也无法窃取此Cookie</li>
+<li>验证码：防止脚本冒充用户提交危险操作</li>
+</ol>
+<h2 id="简单介绍一下CSRF-跨站请求伪造-以及如何防御"><a href="#简单介绍一下CSRF-跨站请求伪造-以及如何防御" class="headerlink" title="简单介绍一下CSRF(跨站请求伪造)以及如何防御"></a>简单介绍一下CSRF(跨站请求伪造)以及如何防御</h2><p>攻击者诱导受害者进入第三方网站，在第三方网站中，向被攻击网站发送跨站请求。利用受害者在被攻击网站已经获取的注册凭证，绕过后台的用户验证，达到冒充用户对呗攻击的网站执行某项操作的目的</p>
+<h3 id="防御方法"><a href="#防御方法" class="headerlink" title="防御方法"></a>防御方法</h3><ol>
+<li><strong>同源检测</strong>：验证 HTTP Referer 或者 Origin字段；它记录了该HTTP请求的来源地址</li>
+<li><strong>在请求地址中添加token并验证</strong>：服务器下发一个随机Token，每次发送请求时将Token携带上，服务器验证Token是否有效</li>
+<li>在HTTP头中自定义属性并验证。把token放到HTTP头的自定义属性里面</li>
+<li><strong>不让第三方网站访问到用户Cookie</strong>:可以对设置 <strong>SameSite</strong> 属性。该属性表示Cookie不随着跨域请求发送，可以很大程度减少CSRF的攻击，但该属性目前并不是所有浏览器都兼容。</li>
+</ol>
+<h2 id="判断数组的方法"><a href="#判断数组的方法" class="headerlink" title="判断数组的方法"></a>判断数组的方法</h2><h3 id="Object-property-toString-call"><a href="#Object-property-toString-call" class="headerlink" title="Object.property.toString.call()"></a>Object.property.toString.call()</h3><p>每一个继承 Object 的对象都有 <code>toString</code> 方法，如果 <code>toString</code> 方法没有重写，会返回 <code>[Object type]</code>，其中 type 为对象的类型。但当除了 Object 类型的对象外，其他类型直接使用 <code>toString</code> 方法时，会直接返回都是内容的字符串，所以我们需要使用 call 或 apply 方法改变 <code>toString</code> 方法的执行上下文</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> an = [<span class="string">'Hello'</span>,<span class="string">'An'</span>];</span><br><span class="line">an.toString(); <span class="comment">// "Hello,An"</span></span><br><span class="line"><span class="built_in">Object</span>.prototype.toString.call(an); <span class="comment">// "[object Array]"</span></span><br></pre></td></tr></table></figure>
+
+<p>这种方法对于所有基本的数据类型都能进行判断，即使是 null 和 undefined 。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Object</span>.prototype.toString.call(<span class="string">'An'</span>) <span class="comment">// "[object String]"</span></span><br><span class="line"><span class="built_in">Object</span>.prototype.toString.call(<span class="number">1</span>) <span class="comment">// "[object Number]"</span></span><br><span class="line"><span class="built_in">Object</span>.prototype.toString.call(<span class="built_in">Symbol</span>(<span class="number">1</span>)) <span class="comment">// "[object Symbol]"</span></span><br><span class="line"><span class="built_in">Object</span>.prototype.toString.call(<span class="literal">null</span>) <span class="comment">// "[object Null]"</span></span><br><span class="line"><span class="built_in">Object</span>.prototype.toString.call(<span class="literal">undefined</span>) <span class="comment">// "[object Undefined]"</span></span><br><span class="line"><span class="built_in">Object</span>.prototype.toString.call(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;) <span class="comment">// "[object Function]"</span></span><br><span class="line"><span class="built_in">Object</span>.prototype.toString.call(&#123;<span class="attr">name</span>: <span class="string">'An'</span>&#125;) <span class="comment">// "[object Object]"</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="instanceof"><a href="#instanceof" class="headerlink" title="instanceof"></a>instanceof</h3><p><code>instanceof</code> 的内部机制是通过判断对象的原型链中是不是能找到类型的 <code>prototype</code>。</p>
+<p>使用 <code>instanceof</code>判断一个对象是否为数组，<code>instanceof</code> 会判断这个对象的原型链上是否会找到对应的 <code>Array</code> 的原型，找到返回 <code>true</code>，否则返回 <code>false</code>。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">[]  <span class="keyword">instanceof</span> <span class="built_in">Array</span>; <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+
+<p>但 <code>instanceof</code> 只能用来判断对象类型，原始类型不可以。并且所有对象类型 instanceof Object 都是 true。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">[]  <span class="keyword">instanceof</span> <span class="built_in">Object</span>; <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Array-isArray"><a href="#Array-isArray" class="headerlink" title="Array.isArray()"></a>Array.isArray()</h3><p>该方法用来判断对象是否为数组</p>
+<ul>
+<li><p>instanceof 与 isArray：</p>
+<p>当检测Array实例时，<code>Array.isArray</code> 优于 <code>instanceof</code> ，因为 <code>Array.isArray</code> 可以检测出 <code>iframes</code></p>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> iframe = <span class="built_in">document</span>.createElement(<span class="string">'iframe'</span>);</span><br><span class="line"><span class="built_in">document</span>.body.appendChild(iframe);</span><br><span class="line">xArray = <span class="built_in">window</span>.frames[<span class="built_in">window</span>.frames.length<span class="number">-1</span>].Array;</span><br><span class="line"><span class="keyword">var</span> arr = <span class="keyword">new</span> xArray(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>); <span class="comment">// [1,2,3]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Correctly checking for Array</span></span><br><span class="line"><span class="built_in">Array</span>.isArray(arr);  <span class="comment">// true</span></span><br><span class="line"><span class="built_in">Object</span>.prototype.toString.call(arr); <span class="comment">// true</span></span><br><span class="line"><span class="comment">// Considered harmful, because doesn't work though iframes</span></span><br><span class="line">arr <span class="keyword">instanceof</span> <span class="built_in">Array</span>; <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>Array.isArray()</code> 与 <code>Object.prototype.toString.call()</code><br><code>Array.isArray()</code>是ES5新增的方法，当不存在 <code>Array.isArray()</code> ，可以用 <code>Object.prototype.toString.call()</code> 实现。</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (!<span class="built_in">Array</span>.isArray) &#123;</span><br><span class="line">  <span class="built_in">Array</span>.isArray = <span class="function"><span class="keyword">function</span>(<span class="params">arg</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Object</span>.prototype.toString.call(arg) === <span class="string">'[object Array]'</span>;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="null-和-undefined-的区别"><a href="#null-和-undefined-的区别" class="headerlink" title="null 和 undefined 的区别"></a>null 和 undefined 的区别</h2><p>null是一个表示”无”的<strong>对象</strong>，转为数值时为<strong>0</strong>；undefined是一个表示”无”的<strong>原始值</strong>，转为数值时为<strong>NaN</strong>。</p>
+<ul>
+<li><p>​    null表示”没有对象”，即该处不应该有值</p>
+<ul>
+<li>作为函数的参数，表示该函数的参数不是对象。</li>
+<li>作为对象原型链的终点。</li>
+</ul>
+</li>
+<li><p>​    undefined表示”缺省值”，就是此处应该有一个值，但是还没有定义</p>
+<ul>
+<li>变量被声明了，但没有赋值时，就等于undefined。</li>
+<li>调用函数时，应该提供的参数没有提供，该参数等于undefined。</li>
+<li>对象没有赋值的属性，该属性的值为undefined。</li>
+<li>函数没有返回值时，默认返回undefined。</li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>每日一题系列</category>
+      </categories>
+      <tags>
+        <tag>Xss</tag>
+        <tag>CSRF</tag>
+        <tag>判断数组的方法</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>深拷贝和浅拷贝</title>
     <url>/2020/04/01/JavaScript/%E6%B7%B1%E6%8B%B7%E8%B4%9D%E5%92%8C%E6%B5%85%E6%8B%B7%E8%B4%9D/</url>
     <content><![CDATA[<h1 id="浅拷贝"><a href="#浅拷贝" class="headerlink" title="浅拷贝"></a>浅拷贝</h1><h2 id="什么是浅拷贝"><a href="#什么是浅拷贝" class="headerlink" title="什么是浅拷贝"></a>什么是浅拷贝</h2><p>如果是一个引用类型，比如说一个数组直接赋值给另一个新数组，当对这个新数组进行改变的时候，由于是同一个引用，原来的数组也会跟着改变</p>
@@ -486,70 +604,6 @@
       </categories>
       <tags>
         <tag>Set和Map</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>每日一题（二）</title>
-    <url>/2020/03/03/%E6%AF%8F%E6%97%A5%E9%95%80%E9%87%91/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98%EF%BC%88%E4%BA%8C%EF%BC%89/</url>
-    <content><![CDATA[<h1 id="每日一题（二）"><a href="#每日一题（二）" class="headerlink" title="每日一题（二）"></a>每日一题（二）</h1><h2 id="常见的网站漏洞有哪些"><a href="#常见的网站漏洞有哪些" class="headerlink" title="常见的网站漏洞有哪些"></a>常见的网站漏洞有哪些</h2><p>有跨站脚本攻击（XSS）、跨站请求伪造（CSRF）、点击劫持、SQL注入、DDOS攻击、DNS劫持</p>
-<h2 id="简单介绍一下XSS以及XSS如何防御"><a href="#简单介绍一下XSS以及XSS如何防御" class="headerlink" title="简单介绍一下XSS以及XSS如何防御"></a>简单介绍一下XSS以及XSS如何防御</h2><p>跨站脚本攻击是说攻击者通过注入恶意脚本，在用户浏览页面的时候进行攻击，比如获取cookie或者其他用户身份信息。</p>
-<p>可以分为存储型和反射型：</p>
-<ul>
-<li>存储型是攻击者输入一些数据并且存储到了数据库中，其他浏览者看到的时候进行攻击</li>
-<li>反射型不存储在数据库中，往往表现为将攻击代码放在URL地址的请求参数中</li>
-</ul>
-<h3 id="如何防御"><a href="#如何防御" class="headerlink" title="如何防御"></a>如何防御</h3><ol>
-<li><strong>转义字符</strong>，对于用户输入的内容进行转义，如对引号、尖括号、斜杠进行转义</li>
-<li><strong>CSP</strong>，CSP本质上就是建立白名单，开发者明确告诉浏览器哪些外部资源可以加载和执行。我们只需要配置规则，如何拦截是由浏览器自己实现的。通常可以通过两种方式实现GSP：<ul>
-<li>设置HTTP Header中的Content-Security-Pplicy</li>
-<li>设置meta标签方式</li>
-</ul>
-</li>
-<li>输入内容长度控制</li>
-<li>HTTP-Only Cookie：禁止JavaScript读取某些敏感Cookie，攻击者完成XSS注入后也无法窃取此Cookie</li>
-<li>验证码：防止脚本冒充用户提交危险操作</li>
-</ol>
-<h2 id="简单介绍一下CSRF-跨站请求伪造-以及如何防御"><a href="#简单介绍一下CSRF-跨站请求伪造-以及如何防御" class="headerlink" title="简单介绍一下CSRF(跨站请求伪造)以及如何防御"></a>简单介绍一下CSRF(跨站请求伪造)以及如何防御</h2><p>攻击者诱导受害者进入第三方网站，在第三方网站中，向被攻击网站发送跨站请求。利用受害者在被攻击网站已经获取的注册凭证，绕过后台的用户验证，达到冒充用户对呗攻击的网站执行某项操作的目的</p>
-<h3 id="防御方法"><a href="#防御方法" class="headerlink" title="防御方法"></a>防御方法</h3><ol>
-<li><strong>同源检测</strong>：验证 HTTP Referer 或者 Origin字段；它记录了该HTTP请求的来源地址</li>
-<li><strong>在请求地址中添加token并验证</strong>：服务器下发一个随机Token，每次发送请求时将Token携带上，服务器验证Token是否有效</li>
-<li>在HTTP头中自定义属性并验证。把token放到HTTP头的自定义属性里面</li>
-<li><strong>不让第三方网站访问到用户Cookie</strong>:可以对设置 <strong>SameSite</strong> 属性。该属性表示Cookie不随着跨域请求发送，可以很大程度减少CSRF的攻击，但该属性目前并不是所有浏览器都兼容。</li>
-</ol>
-<h2 id="判断数组的方法"><a href="#判断数组的方法" class="headerlink" title="判断数组的方法"></a>判断数组的方法</h2><h3 id="Object-property-toString-call"><a href="#Object-property-toString-call" class="headerlink" title="Object.property.toString.call()"></a>Object.property.toString.call()</h3><p>每一个继承 Object 的对象都有 <code>toString</code> 方法，如果 <code>toString</code> 方法没有重写，会返回 <code>[Object type]</code>，其中 type 为对象的类型。但当除了 Object 类型的对象外，其他类型直接使用 <code>toString</code> 方法时，会直接返回都是内容的字符串，所以我们需要使用 call 或 apply 方法改变 <code>toString</code> 方法的执行上下文</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> an = [<span class="string">'Hello'</span>,<span class="string">'An'</span>];</span><br><span class="line">an.toString(); <span class="comment">// "Hello,An"</span></span><br><span class="line"><span class="built_in">Object</span>.prototype.toString.call(an); <span class="comment">// "[object Array]"</span></span><br></pre></td></tr></table></figure>
-
-<p>这种方法对于所有基本的数据类型都能进行判断，即使是 null 和 undefined 。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Object</span>.prototype.toString.call(<span class="string">'An'</span>) <span class="comment">// "[object String]"</span></span><br><span class="line"><span class="built_in">Object</span>.prototype.toString.call(<span class="number">1</span>) <span class="comment">// "[object Number]"</span></span><br><span class="line"><span class="built_in">Object</span>.prototype.toString.call(<span class="built_in">Symbol</span>(<span class="number">1</span>)) <span class="comment">// "[object Symbol]"</span></span><br><span class="line"><span class="built_in">Object</span>.prototype.toString.call(<span class="literal">null</span>) <span class="comment">// "[object Null]"</span></span><br><span class="line"><span class="built_in">Object</span>.prototype.toString.call(<span class="literal">undefined</span>) <span class="comment">// "[object Undefined]"</span></span><br><span class="line"><span class="built_in">Object</span>.prototype.toString.call(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;) <span class="comment">// "[object Function]"</span></span><br><span class="line"><span class="built_in">Object</span>.prototype.toString.call(&#123;<span class="attr">name</span>: <span class="string">'An'</span>&#125;) <span class="comment">// "[object Object]"</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="instanceof"><a href="#instanceof" class="headerlink" title="instanceof"></a>instanceof</h3><p><code>instanceof</code> 的内部机制是通过判断对象的原型链中是不是能找到类型的 <code>prototype</code>。</p>
-<p>使用 <code>instanceof</code>判断一个对象是否为数组，<code>instanceof</code> 会判断这个对象的原型链上是否会找到对应的 <code>Array</code> 的原型，找到返回 <code>true</code>，否则返回 <code>false</code>。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">[]  <span class="keyword">instanceof</span> <span class="built_in">Array</span>; <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
-
-<p>但 <code>instanceof</code> 只能用来判断对象类型，原始类型不可以。并且所有对象类型 instanceof Object 都是 true。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">[]  <span class="keyword">instanceof</span> <span class="built_in">Object</span>; <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="Array-isArray"><a href="#Array-isArray" class="headerlink" title="Array.isArray()"></a>Array.isArray()</h3><p>该方法用来判断对象是否为数组</p>
-<ul>
-<li><p>instanceof 与 isArray：</p>
-<p>当检测Array实例时，<code>Array.isArray</code> 优于 <code>instanceof</code> ，因为 <code>Array.isArray</code> 可以检测出 <code>iframes</code></p>
-</li>
-</ul>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> iframe = <span class="built_in">document</span>.createElement(<span class="string">'iframe'</span>);</span><br><span class="line"><span class="built_in">document</span>.body.appendChild(iframe);</span><br><span class="line">xArray = <span class="built_in">window</span>.frames[<span class="built_in">window</span>.frames.length<span class="number">-1</span>].Array;</span><br><span class="line"><span class="keyword">var</span> arr = <span class="keyword">new</span> xArray(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>); <span class="comment">// [1,2,3]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Correctly checking for Array</span></span><br><span class="line"><span class="built_in">Array</span>.isArray(arr);  <span class="comment">// true</span></span><br><span class="line"><span class="built_in">Object</span>.prototype.toString.call(arr); <span class="comment">// true</span></span><br><span class="line"><span class="comment">// Considered harmful, because doesn't work though iframes</span></span><br><span class="line">arr <span class="keyword">instanceof</span> <span class="built_in">Array</span>; <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><code>Array.isArray()</code> 与 <code>Object.prototype.toString.call()</code><br><code>Array.isArray()</code>是ES5新增的方法，当不存在 <code>Array.isArray()</code> ，可以用 <code>Object.prototype.toString.call()</code> 实现。</li>
-</ul>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (!<span class="built_in">Array</span>.isArray) &#123;</span><br><span class="line">  <span class="built_in">Array</span>.isArray = <span class="function"><span class="keyword">function</span>(<span class="params">arg</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Object</span>.prototype.toString.call(arg) === <span class="string">'[object Array]'</span>;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>每日一题系列</category>
-      </categories>
-      <tags>
-        <tag>Xss</tag>
-        <tag>CSRF</tag>
-        <tag>判断数组的方法</tag>
       </tags>
   </entry>
   <entry>
