@@ -88,15 +88,15 @@
 
 
 
-<meta name="description" content="每日一题（二）常见的网站漏洞有哪些有跨站脚本攻击（XSS）、跨站请求伪造（CSRF）、点击劫持、SQL注入、DDOS攻击、DNS劫持 简单介绍一下XSS以及XSS如何防御跨站脚本攻击是说攻击者通过注入恶意脚本，在用户浏览页面的时候进行攻击，比如获取cookie或者其他用户身份信息。 可以分为存储型和反射型：  存储型是攻击者输入一些数据并且存储到了数据库中，其他浏览者看到的时候进行攻击 反射型不存">
+<meta name="description" content="每日一题（二）常见的网站漏洞有哪些有跨站脚本攻击（XSS）、跨站请求伪造（CSRF）、点击劫持、SQL注入、DDOS攻击、DNS劫持 简单介绍一下XSS以及XSS如何防御跨站脚本攻击是说攻击者通过注入恶意脚本，在用户浏览页面的时候进行攻击，比如获取cookie或者其他用户身份信息。或者攻击者在论坛中放一个看似安全的连接，骗取用户单击并窃取 cookie 中的用户私密信息；攻击者在论坛中加一个恶意表">
 <meta name="keywords" content="Xss,CSRF,判断数组的方法">
 <meta property="og:type" content="article">
 <meta property="og:title" content="每日一题（二）">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;03&#x2F;03&#x2F;%E6%AF%8F%E6%97%A5%E9%95%80%E9%87%91&#x2F;%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98%EF%BC%88%E4%BA%8C%EF%BC%89&#x2F;index.html">
 <meta property="og:site_name" content="RicardoJiang&#39;s Blog">
-<meta property="og:description" content="每日一题（二）常见的网站漏洞有哪些有跨站脚本攻击（XSS）、跨站请求伪造（CSRF）、点击劫持、SQL注入、DDOS攻击、DNS劫持 简单介绍一下XSS以及XSS如何防御跨站脚本攻击是说攻击者通过注入恶意脚本，在用户浏览页面的时候进行攻击，比如获取cookie或者其他用户身份信息。 可以分为存储型和反射型：  存储型是攻击者输入一些数据并且存储到了数据库中，其他浏览者看到的时候进行攻击 反射型不存">
+<meta property="og:description" content="每日一题（二）常见的网站漏洞有哪些有跨站脚本攻击（XSS）、跨站请求伪造（CSRF）、点击劫持、SQL注入、DDOS攻击、DNS劫持 简单介绍一下XSS以及XSS如何防御跨站脚本攻击是说攻击者通过注入恶意脚本，在用户浏览页面的时候进行攻击，比如获取cookie或者其他用户身份信息。或者攻击者在论坛中放一个看似安全的连接，骗取用户单击并窃取 cookie 中的用户私密信息；攻击者在论坛中加一个恶意表">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-04-09T08:38:31.257Z">
+<meta property="og:updated_time" content="2020-04-16T03:09:43.157Z">
 <meta name="twitter:card" content="summary">
 
 
@@ -394,8 +394,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2020-04-09T16:38:31+08:00">
-                2020-04-09
+              <time title="更新于" itemprop="dateModified" datetime="2020-04-16T11:09:43+08:00">
+                2020-04-16
               </time>
             
           </span>
@@ -455,7 +455,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1.3k
+                  1.6k
                 </span>
               
 
@@ -471,7 +471,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  4
+                  5
                 </span>
               
             </div>
@@ -493,7 +493,7 @@
 
       
         <h1 id="每日一题（二）"><a href="#每日一题（二）" class="headerlink" title="每日一题（二）"></a>每日一题（二）</h1><h2 id="常见的网站漏洞有哪些"><a href="#常见的网站漏洞有哪些" class="headerlink" title="常见的网站漏洞有哪些"></a>常见的网站漏洞有哪些</h2><p>有跨站脚本攻击（XSS）、跨站请求伪造（CSRF）、点击劫持、SQL注入、DDOS攻击、DNS劫持</p>
-<h2 id="简单介绍一下XSS以及XSS如何防御"><a href="#简单介绍一下XSS以及XSS如何防御" class="headerlink" title="简单介绍一下XSS以及XSS如何防御"></a>简单介绍一下XSS以及XSS如何防御</h2><p>跨站脚本攻击是说攻击者通过注入恶意脚本，在用户浏览页面的时候进行攻击，比如获取cookie或者其他用户身份信息。</p>
+<h2 id="简单介绍一下XSS以及XSS如何防御"><a href="#简单介绍一下XSS以及XSS如何防御" class="headerlink" title="简单介绍一下XSS以及XSS如何防御"></a>简单介绍一下XSS以及XSS如何防御</h2><p>跨站脚本攻击是说攻击者通过注入恶意脚本，在用户浏览页面的时候进行攻击，比如获取cookie或者其他用户身份信息。或者攻击者在论坛中放一个看似安全的连接，骗取用户单击并窃取 cookie 中的用户私密信息；攻击者在论坛中加一个恶意表单，当用户提交表单的时候，将信息传给了攻击者的服务器。</p>
 <p>可以分为存储型和反射型：</p>
 <ul>
 <li>存储型是攻击者输入一些数据并且存储到了数据库中，其他浏览者看到的时候进行攻击</li>
@@ -516,6 +516,14 @@
 <li><strong>在请求地址中添加token并验证</strong>：服务器下发一个随机Token，每次发送请求时将Token携带上，服务器验证Token是否有效</li>
 <li>在HTTP头中自定义属性并验证。把token放到HTTP头的自定义属性里面</li>
 <li><strong>不让第三方网站访问到用户Cookie</strong>:可以对设置 <strong>SameSite</strong> 属性。该属性表示Cookie不随着跨域请求发送，可以很大程度减少CSRF的攻击，但该属性目前并不是所有浏览器都兼容。</li>
+</ol>
+<h2 id="SQL注入是什么？如何防护？"><a href="#SQL注入是什么？如何防护？" class="headerlink" title="SQL注入是什么？如何防护？"></a>SQL注入是什么？如何防护？</h2><p>SQL注入是把 SQL 命令插入 Web 表单、输入域名或页面请求的查询字符串中，最终达到欺骗服务器执行恶意 SQL 命令。</p>
+<p>总的来说，有以下几点防护措施：</p>
+<ol>
+<li>始终不信任用户的输入，要对用户的输入进行校验，可以通过正则表达式或限制长度，对单引号和双 “-” 进行转换等</li>
+<li>始终不要使用动态拼接 SQL，可以使用参数化的 SQL 或者直接使用存储过程进行数据查询与存取</li>
+<li>始终不要使用管理员权限的数据库连接，为每个应用使用单独的权限和有限的权限数据库连接</li>
+<li>不要把机密信息用明文存放，应通过加密或者散列处理密码和敏感的信息</li>
 </ol>
 <h2 id="判断数组的方法"><a href="#判断数组的方法" class="headerlink" title="判断数组的方法"></a>判断数组的方法</h2><h3 id="Object-property-toString-call"><a href="#Object-property-toString-call" class="headerlink" title="Object.property.toString.call()"></a>Object.property.toString.call()</h3><p>每一个继承 Object 的对象都有 <code>toString</code> 方法，如果 <code>toString</code> 方法没有重写，会返回 <code>[Object type]</code>，其中 type 为对象的类型。但当除了 Object 类型的对象外，其他类型直接使用 <code>toString</code> 方法时，会直接返回都是内容的字符串，所以我们需要使用 call 或 apply 方法改变 <code>toString</code> 方法的执行上下文</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> an = [<span class="string">'Hello'</span>,<span class="string">'An'</span>];</span><br><span class="line">an.toString(); <span class="comment">// "Hello,An"</span></span><br><span class="line"><span class="built_in">Object</span>.prototype.toString.call(an); <span class="comment">// "[object Array]"</span></span><br></pre></td></tr></table></figure>
@@ -689,7 +697,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">38</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -711,7 +719,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">60</span>
+                  <span class="site-state-item-count">61</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -767,7 +775,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#每日一题（二）"><span class="nav-number">1.</span> <span class="nav-text">每日一题（二）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#常见的网站漏洞有哪些"><span class="nav-number">1.1.</span> <span class="nav-text">常见的网站漏洞有哪些</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#简单介绍一下XSS以及XSS如何防御"><span class="nav-number">1.2.</span> <span class="nav-text">简单介绍一下XSS以及XSS如何防御</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#如何防御"><span class="nav-number">1.2.1.</span> <span class="nav-text">如何防御</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#简单介绍一下CSRF-跨站请求伪造-以及如何防御"><span class="nav-number">1.3.</span> <span class="nav-text">简单介绍一下CSRF(跨站请求伪造)以及如何防御</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#防御方法"><span class="nav-number">1.3.1.</span> <span class="nav-text">防御方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#判断数组的方法"><span class="nav-number">1.4.</span> <span class="nav-text">判断数组的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Object-property-toString-call"><span class="nav-number">1.4.1.</span> <span class="nav-text">Object.property.toString.call()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#instanceof"><span class="nav-number">1.4.2.</span> <span class="nav-text">instanceof</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Array-isArray"><span class="nav-number">1.4.3.</span> <span class="nav-text">Array.isArray()</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#null-和-undefined-的区别"><span class="nav-number">1.5.</span> <span class="nav-text">null 和 undefined 的区别</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#每日一题（二）"><span class="nav-number">1.</span> <span class="nav-text">每日一题（二）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#常见的网站漏洞有哪些"><span class="nav-number">1.1.</span> <span class="nav-text">常见的网站漏洞有哪些</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#简单介绍一下XSS以及XSS如何防御"><span class="nav-number">1.2.</span> <span class="nav-text">简单介绍一下XSS以及XSS如何防御</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#如何防御"><span class="nav-number">1.2.1.</span> <span class="nav-text">如何防御</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#简单介绍一下CSRF-跨站请求伪造-以及如何防御"><span class="nav-number">1.3.</span> <span class="nav-text">简单介绍一下CSRF(跨站请求伪造)以及如何防御</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#防御方法"><span class="nav-number">1.3.1.</span> <span class="nav-text">防御方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SQL注入是什么？如何防护？"><span class="nav-number">1.4.</span> <span class="nav-text">SQL注入是什么？如何防护？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#判断数组的方法"><span class="nav-number">1.5.</span> <span class="nav-text">判断数组的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Object-property-toString-call"><span class="nav-number">1.5.1.</span> <span class="nav-text">Object.property.toString.call()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#instanceof"><span class="nav-number">1.5.2.</span> <span class="nav-text">instanceof</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Array-isArray"><span class="nav-number">1.5.3.</span> <span class="nav-text">Array.isArray()</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#null-和-undefined-的区别"><span class="nav-number">1.6.</span> <span class="nav-text">null 和 undefined 的区别</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -810,7 +818,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共42.7k字</span>
+  <span class="post-count">博客全站共43.5k字</span>
 </div>
 
 

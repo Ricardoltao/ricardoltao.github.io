@@ -1,45 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>TypeScript高级类型</title>
-    <url>/2020/04/09/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/TypeScript%E9%AB%98%E7%BA%A7%E7%B1%BB%E5%9E%8B/</url>
-    <content><![CDATA[<h1 id="TypeScript-的高级类型"><a href="#TypeScript-的高级类型" class="headerlink" title="TypeScript 的高级类型"></a>TypeScript 的高级类型</h1><p>TypeScript 提供了高级类型，来满足更多类型的处理，主要分为：</p>
-<ul>
-<li>交叉类型：多种类型之和</li>
-<li>联合类型：多种类型之一</li>
-</ul>
-<h2 id="交叉类型"><a href="#交叉类型" class="headerlink" title="交叉类型"></a>交叉类型</h2><p>交叉类型是<strong>将多个类型合并为一个类型</strong>。这让我们可以把现有的多种类型叠加到一起成为一种类型，它包含了所需的所有类型的特性。</p>
-<p> 例如，<code>Person &amp; Loggable</code> 同时是 <code>Person</code> 和 <code>Loggable</code>。就是说这个类型的对象同时拥有了这两种类型的成员。</p>
-<p>我们大多是在混入（mixins）或其它不适合典型面向对象模型的地方看到交叉类型的使用。 （在 JavaScript 里发生这种情况的场合很多！） 下面是如何创建混入的一个简单例子：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">extend</span>&lt;<span class="title">T</span>, <span class="title">U</span>&gt; (<span class="params">first: T, second: U</span>): <span class="title">T</span> &amp; <span class="title">U</span> </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> result = &#123;&#125; <span class="keyword">as</span> T &amp; U</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> id <span class="keyword">in</span> first) &#123;</span><br><span class="line">    result[id] = first[id] <span class="keyword">as</span> any</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> id <span class="keyword">in</span> second) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!result.hasOwnProperty(id)) &#123;</span><br><span class="line">      result[id] = second[id] <span class="keyword">as</span> any</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span> (public name: string) &#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">interface Loggable &#123;</span><br><span class="line">  log (): <span class="keyword">void</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConsoleLogger</span> <span class="title">implements</span> <span class="title">Loggable</span> </span>&#123;</span><br><span class="line">  log () &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> jim = extend(<span class="keyword">new</span> Person(<span class="string">'Jim'</span>), <span class="keyword">new</span> ConsoleLogger())</span><br><span class="line"><span class="keyword">var</span> n = jim.name</span><br><span class="line">jim.log()</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="联合类型"><a href="#联合类型" class="headerlink" title="联合类型"></a>联合类型</h2><p>联合类型与交叉类型很有关联，但是使用上却完全不同。 偶尔你会遇到这种情况，一个代码库希望传入 <code>number</code> 或 <code>string</code> 类型的参数。 例如下面的函数：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">padLeft</span>(<span class="params">value: string, padding: any</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> padding === <span class="string">'number'</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Array</span>(padding + <span class="number">1</span>).join(<span class="string">' '</span>) + value</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> padding === <span class="string">'string'</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> padding + value</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">`Expected string or number, got '<span class="subst">$&#123;padding&#125;</span>'.`</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">padLeft(<span class="string">'Hello world'</span>, <span class="number">4</span>) <span class="comment">// returns "    Hello world"</span></span><br></pre></td></tr></table></figure>
-
-<p><code>padLeft</code> 存在一个问题，<code>padding</code> 参数的类型指定成了 <code>any</code>。 这就是说我们可以传入一个既不是 <code>number</code> 也不是 <code>string</code> 类型的参数，但是 TypeScript 却不报错。</p>
-<p>为了解决这个问题，我们可以使用 联合类型做为 <code>padding</code> 的参数：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">padLeft</span>(<span class="params">value: string, padding: string | number</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> indentedString = padLeft(<span class="string">'Hello world'</span>, <span class="literal">true</span>) <span class="comment">// 编译阶段报错</span></span><br></pre></td></tr></table></figure>
-
-<p>联合类型表示一个值可以是几种类型之一。我们用竖线（<code>|</code>）分隔每个类型，所以 <code>number | string</code> 表示一个值可以是 <code>number</code> 或 <code>string</code>。</p>
-<p>如果一个值是联合类型，我们只能访问此联合类型的所有类型里共有的成员。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">interface Bird &#123;</span><br><span class="line">  fly()</span><br><span class="line">  layEggs()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">interface Fish &#123;</span><br><span class="line">  swim()</span><br><span class="line">  layEggs()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getSmallPet</span>(<span class="params"></span>): <span class="title">Fish</span> | <span class="title">Bird</span> </span>&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> pet = getSmallPet()</span><br><span class="line">pet.layEggs() <span class="comment">// okay</span></span><br><span class="line">pet.swim()    <span class="comment">// error</span></span><br></pre></td></tr></table></figure>
-
-<p>这里的联合类型可能有点复杂：如果一个值的类型是 <code>A | B</code>，我们能够确定的是它包含了 <code>A</code> 和 <code>B</code> 中共有的成员。这个例子里，<code>Fish</code> 具有一个 <code>swim</code> 方法，我们不能确定一个 <code>Bird | Fish</code> 类型的变量是否有 <code>swim</code>方法。 如果变量在运行时是 <code>Bird</code> 类型，那么调用 <code>pet.swim()</code> 就出错了。</p>
-]]></content>
-      <categories>
-        <category>TypeScript</category>
-      </categories>
-      <tags>
-        <tag>TypeScript高级类型</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>每日一题（二）</title>
     <url>/2020/03/03/%E6%AF%8F%E6%97%A5%E9%95%80%E9%87%91/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98%EF%BC%88%E4%BA%8C%EF%BC%89/</url>
     <content><![CDATA[<h1 id="每日一题（二）"><a href="#每日一题（二）" class="headerlink" title="每日一题（二）"></a>每日一题（二）</h1><h2 id="常见的网站漏洞有哪些"><a href="#常见的网站漏洞有哪些" class="headerlink" title="常见的网站漏洞有哪些"></a>常见的网站漏洞有哪些</h2><p>有跨站脚本攻击（XSS）、跨站请求伪造（CSRF）、点击劫持、SQL注入、DDOS攻击、DNS劫持</p>
-<h2 id="简单介绍一下XSS以及XSS如何防御"><a href="#简单介绍一下XSS以及XSS如何防御" class="headerlink" title="简单介绍一下XSS以及XSS如何防御"></a>简单介绍一下XSS以及XSS如何防御</h2><p>跨站脚本攻击是说攻击者通过注入恶意脚本，在用户浏览页面的时候进行攻击，比如获取cookie或者其他用户身份信息。</p>
+<h2 id="简单介绍一下XSS以及XSS如何防御"><a href="#简单介绍一下XSS以及XSS如何防御" class="headerlink" title="简单介绍一下XSS以及XSS如何防御"></a>简单介绍一下XSS以及XSS如何防御</h2><p>跨站脚本攻击是说攻击者通过注入恶意脚本，在用户浏览页面的时候进行攻击，比如获取cookie或者其他用户身份信息。或者攻击者在论坛中放一个看似安全的连接，骗取用户单击并窃取 cookie 中的用户私密信息；攻击者在论坛中加一个恶意表单，当用户提交表单的时候，将信息传给了攻击者的服务器。</p>
 <p>可以分为存储型和反射型：</p>
 <ul>
 <li>存储型是攻击者输入一些数据并且存储到了数据库中，其他浏览者看到的时候进行攻击</li>
@@ -62,6 +27,14 @@
 <li><strong>在请求地址中添加token并验证</strong>：服务器下发一个随机Token，每次发送请求时将Token携带上，服务器验证Token是否有效</li>
 <li>在HTTP头中自定义属性并验证。把token放到HTTP头的自定义属性里面</li>
 <li><strong>不让第三方网站访问到用户Cookie</strong>:可以对设置 <strong>SameSite</strong> 属性。该属性表示Cookie不随着跨域请求发送，可以很大程度减少CSRF的攻击，但该属性目前并不是所有浏览器都兼容。</li>
+</ol>
+<h2 id="SQL注入是什么？如何防护？"><a href="#SQL注入是什么？如何防护？" class="headerlink" title="SQL注入是什么？如何防护？"></a>SQL注入是什么？如何防护？</h2><p>SQL注入是把 SQL 命令插入 Web 表单、输入域名或页面请求的查询字符串中，最终达到欺骗服务器执行恶意 SQL 命令。</p>
+<p>总的来说，有以下几点防护措施：</p>
+<ol>
+<li>始终不信任用户的输入，要对用户的输入进行校验，可以通过正则表达式或限制长度，对单引号和双 “-” 进行转换等</li>
+<li>始终不要使用动态拼接 SQL，可以使用参数化的 SQL 或者直接使用存储过程进行数据查询与存取</li>
+<li>始终不要使用管理员权限的数据库连接，为每个应用使用单独的权限和有限的权限数据库连接</li>
+<li>不要把机密信息用明文存放，应通过加密或者散列处理密码和敏感的信息</li>
 </ol>
 <h2 id="判断数组的方法"><a href="#判断数组的方法" class="headerlink" title="判断数组的方法"></a>判断数组的方法</h2><h3 id="Object-property-toString-call"><a href="#Object-property-toString-call" class="headerlink" title="Object.property.toString.call()"></a>Object.property.toString.call()</h3><p>每一个继承 Object 的对象都有 <code>toString</code> 方法，如果 <code>toString</code> 方法没有重写，会返回 <code>[Object type]</code>，其中 type 为对象的类型。但当除了 Object 类型的对象外，其他类型直接使用 <code>toString</code> 方法时，会直接返回都是内容的字符串，所以我们需要使用 call 或 apply 方法改变 <code>toString</code> 方法的执行上下文</p>
 <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> an = [<span class="string">'Hello'</span>,<span class="string">'An'</span>];</span><br><span class="line">an.toString(); <span class="comment">// "Hello,An"</span></span><br><span class="line"><span class="built_in">Object</span>.prototype.toString.call(an); <span class="comment">// "[object Array]"</span></span><br></pre></td></tr></table></figure>
@@ -116,6 +89,64 @@
         <tag>Xss</tag>
         <tag>CSRF</tag>
         <tag>判断数组的方法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>贪心算法</title>
+    <url>/2020/04/16/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95/</url>
+    <content><![CDATA[<h1 id="贪心算法"><a href="#贪心算法" class="headerlink" title="贪心算法"></a>贪心算法</h1><h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p>贪心算法是指，在对问题求解时，总是做出<strong>在当前看来最好的选择</strong>。也就是说，不从整体最优上加以考虑，他所做出的仅是在某种意义上的<strong>局部最优解</strong>。</p>
+<p>贪心算法没有固定的算法框架，算法设计的关键是<strong>贪心策略的选择</strong>。必须注意的是，贪心算法不是对所有问题都能得到整体最优解，选择贪心策略必须具备无后效性，即<strong>某个状态以后的过程不会影响以前的状态，只与当前状态有关</strong>。</p>
+<p>所以对所采取的贪心策略一定要仔细分析其是否满足无后效性。</p>
+<h2 id="贪心策略的选择"><a href="#贪心策略的选择" class="headerlink" title="贪心策略的选择"></a>贪心策略的选择</h2><p>因为用贪心算法只能通过解局部最优解的策略来达到全局最优解，因此，一定要注意判断问题是否适合采用贪心算法策略，找到的解是否一定是问题的最优解。</p>
+<h2 id="贪心算法的基本思路"><a href="#贪心算法的基本思路" class="headerlink" title="贪心算法的基本思路"></a>贪心算法的基本思路</h2><ul>
+<li>建立数学模型来描述问题</li>
+<li>把求解的问题分成若干个子问题</li>
+<li>对每一子问题求解，得到子问题的局部最优解</li>
+<li>把子问题的局部最优解合成原来解问题的一个解</li>
+</ul>
+<h2 id="贪心算法适用的问题"><a href="#贪心算法适用的问题" class="headerlink" title="贪心算法适用的问题"></a>贪心算法适用的问题</h2><p>贪心策略适用的前提是：<strong>局部最优策略能导致产生全局最优解</strong>。</p>
+<p>实际上，贪心算法适用的情况很少。一般，对一个问题分析是否适用于贪心算法，可以先选择该问题下的几个实际数据进行分析，就可做出判断。</p>
+]]></content>
+      <categories>
+        <category>数据结构与算法</category>
+      </categories>
+      <tags>
+        <tag>贪心算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>TypeScript高级类型</title>
+    <url>/2020/04/09/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/TypeScript%E9%AB%98%E7%BA%A7%E7%B1%BB%E5%9E%8B/</url>
+    <content><![CDATA[<h1 id="TypeScript-的高级类型"><a href="#TypeScript-的高级类型" class="headerlink" title="TypeScript 的高级类型"></a>TypeScript 的高级类型</h1><p>TypeScript 提供了高级类型，来满足更多类型的处理，主要分为：</p>
+<ul>
+<li>交叉类型：多种类型之和</li>
+<li>联合类型：多种类型之一</li>
+</ul>
+<h2 id="交叉类型"><a href="#交叉类型" class="headerlink" title="交叉类型"></a>交叉类型</h2><p>交叉类型是<strong>将多个类型合并为一个类型</strong>。这让我们可以把现有的多种类型叠加到一起成为一种类型，它包含了所需的所有类型的特性。</p>
+<p> 例如，<code>Person &amp; Loggable</code> 同时是 <code>Person</code> 和 <code>Loggable</code>。就是说这个类型的对象同时拥有了这两种类型的成员。</p>
+<p>我们大多是在混入（mixins）或其它不适合典型面向对象模型的地方看到交叉类型的使用。 （在 JavaScript 里发生这种情况的场合很多！） 下面是如何创建混入的一个简单例子：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">extend</span>&lt;<span class="title">T</span>, <span class="title">U</span>&gt; (<span class="params">first: T, second: U</span>): <span class="title">T</span> &amp; <span class="title">U</span> </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> result = &#123;&#125; <span class="keyword">as</span> T &amp; U</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> id <span class="keyword">in</span> first) &#123;</span><br><span class="line">    result[id] = first[id] <span class="keyword">as</span> any</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> id <span class="keyword">in</span> second) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!result.hasOwnProperty(id)) &#123;</span><br><span class="line">      result[id] = second[id] <span class="keyword">as</span> any</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span> (public name: string) &#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">interface Loggable &#123;</span><br><span class="line">  log (): <span class="keyword">void</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConsoleLogger</span> <span class="title">implements</span> <span class="title">Loggable</span> </span>&#123;</span><br><span class="line">  log () &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> jim = extend(<span class="keyword">new</span> Person(<span class="string">'Jim'</span>), <span class="keyword">new</span> ConsoleLogger())</span><br><span class="line"><span class="keyword">var</span> n = jim.name</span><br><span class="line">jim.log()</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="联合类型"><a href="#联合类型" class="headerlink" title="联合类型"></a>联合类型</h2><p>联合类型与交叉类型很有关联，但是使用上却完全不同。 偶尔你会遇到这种情况，一个代码库希望传入 <code>number</code> 或 <code>string</code> 类型的参数。 例如下面的函数：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">padLeft</span>(<span class="params">value: string, padding: any</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> padding === <span class="string">'number'</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Array</span>(padding + <span class="number">1</span>).join(<span class="string">' '</span>) + value</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> padding === <span class="string">'string'</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> padding + value</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">`Expected string or number, got '<span class="subst">$&#123;padding&#125;</span>'.`</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">padLeft(<span class="string">'Hello world'</span>, <span class="number">4</span>) <span class="comment">// returns "    Hello world"</span></span><br></pre></td></tr></table></figure>
+
+<p><code>padLeft</code> 存在一个问题，<code>padding</code> 参数的类型指定成了 <code>any</code>。 这就是说我们可以传入一个既不是 <code>number</code> 也不是 <code>string</code> 类型的参数，但是 TypeScript 却不报错。</p>
+<p>为了解决这个问题，我们可以使用 联合类型做为 <code>padding</code> 的参数：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">padLeft</span>(<span class="params">value: string, padding: string | number</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> indentedString = padLeft(<span class="string">'Hello world'</span>, <span class="literal">true</span>) <span class="comment">// 编译阶段报错</span></span><br></pre></td></tr></table></figure>
+
+<p>联合类型表示一个值可以是几种类型之一。我们用竖线（<code>|</code>）分隔每个类型，所以 <code>number | string</code> 表示一个值可以是 <code>number</code> 或 <code>string</code>。</p>
+<p>如果一个值是联合类型，我们只能访问此联合类型的所有类型里共有的成员。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">interface Bird &#123;</span><br><span class="line">  fly()</span><br><span class="line">  layEggs()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">interface Fish &#123;</span><br><span class="line">  swim()</span><br><span class="line">  layEggs()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getSmallPet</span>(<span class="params"></span>): <span class="title">Fish</span> | <span class="title">Bird</span> </span>&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> pet = getSmallPet()</span><br><span class="line">pet.layEggs() <span class="comment">// okay</span></span><br><span class="line">pet.swim()    <span class="comment">// error</span></span><br></pre></td></tr></table></figure>
+
+<p>这里的联合类型可能有点复杂：如果一个值的类型是 <code>A | B</code>，我们能够确定的是它包含了 <code>A</code> 和 <code>B</code> 中共有的成员。这个例子里，<code>Fish</code> 具有一个 <code>swim</code> 方法，我们不能确定一个 <code>Bird | Fish</code> 类型的变量是否有 <code>swim</code>方法。 如果变量在运行时是 <code>Bird</code> 类型，那么调用 <code>pet.swim()</code> 就出错了。</p>
+]]></content>
+      <categories>
+        <category>TypeScript</category>
+      </categories>
+      <tags>
+        <tag>TypeScript高级类型</tag>
       </tags>
   </entry>
   <entry>
