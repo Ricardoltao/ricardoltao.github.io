@@ -1,6 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>岛屿数量</title>
+    <url>/2020/04/20/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E5%B2%9B%E5%B1%BF%E6%95%B0%E9%87%8F/</url>
+    <content><![CDATA[<h1 id="岛屿数量-–-LeetCode"><a href="#岛屿数量-–-LeetCode" class="headerlink" title="岛屿数量 – LeetCode"></a>岛屿数量 – LeetCode</h1><p><a href="https://leetcode-cn.com/problems/number-of-islands/" target="_blank" rel="noopener">200. 岛屿数量</a></p>
+<p>给你一个由 ‘1’（陆地）和 ‘0’（水）组成的的二维网格，请你计算网格中岛屿的数量。</p>
+<p>岛屿总是被水包围，并且每座岛屿只能由水平方向和/或竖直方向上相邻的陆地连接形成。</p>
+<p>此外，你可以假设该网格的四条边均被水包围。</p>
+<p><strong>示例 1:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入:</span><br><span class="line">11110</span><br><span class="line">11010</span><br><span class="line">11000</span><br><span class="line">00000</span><br><span class="line">输出: 1</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 2:</strong></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">输入:</span><br><span class="line"><span class="number">11000</span></span><br><span class="line"><span class="number">11000</span></span><br><span class="line"><span class="number">00100</span></span><br><span class="line"><span class="number">00011</span></span><br><span class="line">输出: <span class="number">3</span></span><br><span class="line">解释: 每座岛屿只能由水平和/或竖直方向上相邻的陆地连接而成。</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="解题"><a href="#解题" class="headerlink" title="解题"></a>解题</h2><h3 id="利用DFS"><a href="#利用DFS" class="headerlink" title="利用DFS"></a>利用DFS</h3><p>利用深度优先遍历的思想，递归遍历每一个岛屿，当这个岛屿被访问过，就将其值设为0，便于下一次递归中，不会在重复遍历。</p>
+<p>具体代码如下：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @param &#123;character[][]&#125; grid</span></span><br><span class="line"><span class="comment"> * @return &#123;number&#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">var</span> numIslands = <span class="function"><span class="keyword">function</span>(<span class="params">grid</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 利用DFS</span></span><br><span class="line">    <span class="keyword">let</span> res = <span class="number">0</span></span><br><span class="line">    <span class="keyword">let</span> rows = grid.length</span><br><span class="line">    <span class="keyword">if</span> (rows === <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">let</span> cols = grid[<span class="number">0</span>].length</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>;i&lt;rows;i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">let</span> j=<span class="number">0</span>;j&lt;cols;j++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(grid[i][j] === <span class="string">'1'</span>)&#123;</span><br><span class="line">                dfs(grid,i,j,rows,cols)</span><br><span class="line">                res++</span><br><span class="line">            &#125; </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">dfs</span>(<span class="params">grid,i,j,rows,cols</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(i&lt;<span class="number">0</span> || j&lt;<span class="number">0</span> || i&gt;rows<span class="number">-1</span> || j&gt;cols<span class="number">-1</span> || grid[i][j] === <span class="string">'0'</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    &#125;</span><br><span class="line">    grid[i][j] = <span class="string">'0'</span></span><br><span class="line"></span><br><span class="line">    dfs(grid,i<span class="number">-1</span>,j,rows,cols)</span><br><span class="line">    dfs(grid,i+<span class="number">1</span>,j,rows,cols)</span><br><span class="line">    dfs(grid,i,j<span class="number">-1</span>,rows,cols)</span><br><span class="line">    dfs(grid,i,j+<span class="number">1</span>,rows,cols)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>数据结构与算法</category>
+      </categories>
+      <tags>
+        <tag>力扣</tag>
+        <tag>岛屿数量</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>axios拦截器</title>
+    <url>/2020/04/19/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/axios%E6%8B%A6%E6%88%AA%E5%99%A8/</url>
+    <content><![CDATA[<h1 id="axios拦截器"><a href="#axios拦截器" class="headerlink" title="axios拦截器"></a>axios拦截器</h1><p>页面发送http请求，很多情况我们要对请求和其响应进行特定的处理；例如每个请求都附带后端返回的token，拿到response之前loading动画的展示等。如果请求数非常多，这样处理起来会非常的麻烦，程序的优雅性也会大打折扣。在这种情况下，axios为开发者提供了这样一个API：拦截器。拦截器分为 请求（request）拦截器和 响应（response）拦截器。</p>
+<h2 id="添加请求拦截器"><a href="#添加请求拦截器" class="headerlink" title="添加请求拦截器"></a>添加请求拦截器</h2><figure class="highlight js"><table><tr><td class="code"><pre><span class="line">axios.interceptors.request.use(<span class="function"><span class="keyword">function</span> (<span class="params">config</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 在发送请求之前做些什么</span></span><br><span class="line">    <span class="comment">//config是axios请求的参数</span></span><br><span class="line">    <span class="keyword">return</span> config;</span><br><span class="line">  &#125;, <span class="function"><span class="keyword">function</span> (<span class="params">error</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 对请求错误做些什么</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Promise</span>.reject(error);</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>在发送请求之前，对于配置中的token进行一些处理</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">axios.interceptors.request.use(</span><br><span class="line">  <span class="function"><span class="keyword">function</span>(<span class="params">config</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 设置统一的请求头</span></span><br><span class="line">    <span class="keyword">if</span>(cookie.getCookie(<span class="string">'token'</span>))&#123;</span><br><span class="line">        config.headers.Authorization = <span class="string">"Bearer "</span> + cookie.getCookie(<span class="string">"token"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> config;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="function"><span class="keyword">function</span>(<span class="params">error</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Promise</span>.reject(error);</span><br><span class="line">  &#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="添加响应拦截器"><a href="#添加响应拦截器" class="headerlink" title="添加响应拦截器"></a>添加响应拦截器</h2><figure class="highlight js"><table><tr><td class="code"><pre><span class="line">axios.interceptors.response.use(<span class="function"><span class="keyword">function</span> (<span class="params">response</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 对响应数据做点什么</span></span><br><span class="line">    <span class="comment">// response 是请求回来的数据</span></span><br><span class="line">    <span class="keyword">return</span> response;</span><br><span class="line">  &#125;, <span class="function"><span class="keyword">function</span> (<span class="params">error</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 对响应错误做点什么</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Promise</span>.reject(error)</span><br><span class="line">  &#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>axios</category>
+      </categories>
+      <tags>
+        <tag>axios拦截器</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>每日一题（二）</title>
     <url>/2020/03/03/%E6%AF%8F%E6%97%A5%E9%95%80%E9%87%91/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98%EF%BC%88%E4%BA%8C%EF%BC%89/</url>
     <content><![CDATA[<h1 id="每日一题（二）"><a href="#每日一题（二）" class="headerlink" title="每日一题（二）"></a>每日一题（二）</h1><h2 id="常见的网站漏洞有哪些"><a href="#常见的网站漏洞有哪些" class="headerlink" title="常见的网站漏洞有哪些"></a>常见的网站漏洞有哪些</h2><p>有跨站脚本攻击（XSS）、跨站请求伪造（CSRF）、点击劫持、SQL注入、DDOS攻击、DNS劫持</p>
