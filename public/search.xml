@@ -1,6 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>判断对象是否为空</title>
+    <url>/2020/04/22/JavaScript/%E5%88%A4%E6%96%AD%E5%AF%B9%E8%B1%A1%E6%98%AF%E5%90%A6%E4%B8%BA%E7%A9%BA/</url>
+    <content><![CDATA[<h1 id="判断对象是否是空对象"><a href="#判断对象是否是空对象" class="headerlink" title="判断对象是否是空对象"></a>判断对象是否是空对象</h1><p>本文给出三种判断方式：</p>
+<h2 id="for…in"><a href="#for…in" class="headerlink" title="for…in"></a>for…in</h2><p>用 <code>for...in</code> 遍历对象的键，看对象中是否存在</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i <span class="keyword">in</span> obj) &#123; <span class="comment">// 如果不为空，则会执行到这一步，返回true</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> <span class="literal">false</span> <span class="comment">// 如果为空,返回false</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="JSON"><a href="#JSON" class="headerlink" title="JSON"></a>JSON</h2><p>用 <code>JSON.stringify()</code> 方法用于将 JavaScript 值转换为 JSON 字符串。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="built_in">JSON</span>.stringify(obj) === <span class="string">'&#123;&#125;'</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span> <span class="comment">// 如果为空,返回false</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> <span class="literal">true</span> <span class="comment">// 如果不为空，则会执行到这一步，返回true</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="ES6新增的方法Object-keys"><a href="#ES6新增的方法Object-keys" class="headerlink" title="ES6新增的方法Object.keys()"></a>ES6新增的方法Object.keys()</h2><p><code>Object.keys()</code> 方法会返回一个由一个给定对象的自身可枚举属性组成的数组。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="built_in">Object</span>.keys(obj).length === <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span> <span class="comment">// 如果为空,返回false</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> <span class="literal">true</span> <span class="comment">// 如果不为空，则会执行到这一步，返回true</span></span><br></pre></td></tr></table></figure>
+
+
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>岛屿数量</title>
     <url>/2020/04/20/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E5%B2%9B%E5%B1%BF%E6%95%B0%E9%87%8F/</url>
     <content><![CDATA[<h1 id="岛屿数量-–-LeetCode"><a href="#岛屿数量-–-LeetCode" class="headerlink" title="岛屿数量 – LeetCode"></a>岛屿数量 – LeetCode</h1><p><a href="https://leetcode-cn.com/problems/number-of-islands/" target="_blank" rel="noopener">200. 岛屿数量</a></p>
@@ -24,8 +50,8 @@
         <category>数据结构与算法</category>
       </categories>
       <tags>
-        <tag>力扣</tag>
         <tag>岛屿数量</tag>
+        <tag>力扣</tag>
       </tags>
   </entry>
   <entry>
@@ -345,8 +371,8 @@
         <category>数据结构与算法</category>
       </categories>
       <tags>
-        <tag>三数之和</tag>
         <tag>力扣</tag>
+        <tag>三数之和</tag>
       </tags>
   </entry>
   <entry>

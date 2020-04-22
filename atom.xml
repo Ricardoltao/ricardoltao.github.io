@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-04-20T01:55:15.141Z</updated>
+  <updated>2020-04-22T09:24:51.011Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>判断对象是否为空</title>
+    <link href="http://yoursite.com/2020/04/22/JavaScript/%E5%88%A4%E6%96%AD%E5%AF%B9%E8%B1%A1%E6%98%AF%E5%90%A6%E4%B8%BA%E7%A9%BA/"/>
+    <id>http://yoursite.com/2020/04/22/JavaScript/%E5%88%A4%E6%96%AD%E5%AF%B9%E8%B1%A1%E6%98%AF%E5%90%A6%E4%B8%BA%E7%A9%BA/</id>
+    <published>2020-04-22T09:23:31.000Z</published>
+    <updated>2020-04-22T09:24:51.011Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="判断对象是否是空对象"><a href="#判断对象是否是空对象" class="headerlink" title="判断对象是否是空对象"></a>判断对象是否是空对象</h1><p>本文给出三种判断方式：</p><h2 id="for…in"><a href="#for…in" class="headerlink" title="for…in"></a>for…in</h2><p>用 <code>for...in</code> 遍历对象的键，看对象中是否存在</p><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i <span class="keyword">in</span> obj) &#123; <span class="comment">// 如果不为空，则会执行到这一步，返回true</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> <span class="literal">false</span> <span class="comment">// 如果为空,返回false</span></span><br></pre></td></tr></table></figure><h2 id="JSON"><a href="#JSON" class="headerlink" title="JSON"></a>JSON</h2><p>用 <code>JSON.stringify()</code> 方法用于将 JavaScript 值转换为 JSON 字符串。</p><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="built_in">JSON</span>.stringify(obj) === <span class="string">'&#123;&#125;'</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span> <span class="comment">// 如果为空,返回false</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> <span class="literal">true</span> <span class="comment">// 如果不为空，则会执行到这一步，返回true</span></span><br></pre></td></tr></table></figure><h2 id="ES6新增的方法Object-keys"><a href="#ES6新增的方法Object-keys" class="headerlink" title="ES6新增的方法Object.keys()"></a>ES6新增的方法Object.keys()</h2><p><code>Object.keys()</code> 方法会返回一个由一个给定对象的自身可枚举属性组成的数组。</p><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="built_in">Object</span>.keys(obj).length === <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span> <span class="comment">// 如果为空,返回false</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> <span class="literal">true</span> <span class="comment">// 如果不为空，则会执行到这一步，返回true</span></span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;判断对象是否是空对象&quot;&gt;&lt;a href=&quot;#判断对象是否是空对象&quot; class=&quot;headerlink&quot; title=&quot;判断对象是否是空对象&quot;&gt;&lt;/a&gt;判断对象是否是空对象&lt;/h1&gt;&lt;p&gt;本文给出三种判断方式：&lt;/p&gt;
+&lt;h2 id=&quot;for…in&quot;&gt;&lt;a hre
+      
+    
+    </summary>
+    
+    
+      <category term="JavaScript" scheme="http://yoursite.com/categories/JavaScript/"/>
+    
+    
+      <category term="JavaScript" scheme="http://yoursite.com/tags/JavaScript/"/>
+    
+  </entry>
   
   <entry>
     <title>岛屿数量</title>
@@ -38,9 +65,9 @@
       <category term="数据结构与算法" scheme="http://yoursite.com/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/"/>
     
     
-      <category term="力扣" scheme="http://yoursite.com/tags/%E5%8A%9B%E6%89%A3/"/>
-    
       <category term="岛屿数量" scheme="http://yoursite.com/tags/%E5%B2%9B%E5%B1%BF%E6%95%B0%E9%87%8F/"/>
+    
+      <category term="力扣" scheme="http://yoursite.com/tags/%E5%8A%9B%E6%89%A3/"/>
     
   </entry>
   
@@ -290,9 +317,9 @@
       <category term="数据结构与算法" scheme="http://yoursite.com/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/"/>
     
     
-      <category term="三数之和" scheme="http://yoursite.com/tags/%E4%B8%89%E6%95%B0%E4%B9%8B%E5%92%8C/"/>
-    
       <category term="力扣" scheme="http://yoursite.com/tags/%E5%8A%9B%E6%89%A3/"/>
+    
+      <category term="三数之和" scheme="http://yoursite.com/tags/%E4%B8%89%E6%95%B0%E4%B9%8B%E5%92%8C/"/>
     
   </entry>
   
@@ -586,32 +613,6 @@
     
     
       <category term="进制转换" scheme="http://yoursite.com/tags/%E8%BF%9B%E5%88%B6%E8%BD%AC%E6%8D%A2/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>模拟实现new</title>
-    <link href="http://yoursite.com/2020/02/22/JavaScript/%E6%A8%A1%E6%8B%9F%E5%AE%9E%E7%8E%B0new/"/>
-    <id>http://yoursite.com/2020/02/22/JavaScript/%E6%A8%A1%E6%8B%9F%E5%AE%9E%E7%8E%B0new/</id>
-    <published>2020-02-22T10:51:27.000Z</published>
-    <updated>2020-03-12T05:03:48.579Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="模拟实现new"><a href="#模拟实现new" class="headerlink" title="模拟实现new"></a>模拟实现new</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>今日复习一下new操作符，new是用于创建构造函数的实例，其中创建的实例对象拥有构造函数的属性、方法和原型上的属性和方法。</p><h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p><strong>分析</strong>：</p><p>因为 new 的结构是一个新对象，所以在模拟实现的时候，我们也要建立一个新对象，假设这个对象叫 obj，obj会具有构造函数里的属性，根据经典继承的例子，可以使用 Constructor.apply(obj,arguments) 来给 obj 添加新的属性。</p><p>根据原型及原型链的知识，我们可以知道实例的 <code>__proto__</code> 属性会指向构造函数的 prototype，所以用这个特性来实现实例访问原型上的属性</p><p><strong>代码</strong>:</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">objectFactory</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> obj =  <span class="keyword">new</span> <span class="built_in">Object</span>(), <span class="comment">//从Object.prototype上克隆一个对象</span></span><br><span class="line">        Constructor = [].shift.call(<span class="built_in">arguments</span>); <span class="comment">//取得外部传入的构造器</span></span><br><span class="line">    obj.__proto__ = Constructor.prototype;</span><br><span class="line">    <span class="keyword">var</span> ret = Constructor.apply(obj,<span class="built_in">arguments</span>);<span class="comment">//借用外部传入的构造器给obj设置属性</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">typeof</span> ret === <span class="string">'object'</span> ? ret : obj;<span class="comment">//确保构造器总是返回一个对象</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p><a href="https://github.com/mqyqingfeng/Blog/issues/13" target="_blank" rel="noopener">参考文献</a></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;模拟实现new&quot;&gt;&lt;a href=&quot;#模拟实现new&quot; class=&quot;headerlink&quot; title=&quot;模拟实现new&quot;&gt;&lt;/a&gt;模拟实现new&lt;/h1&gt;&lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前
-      
-    
-    </summary>
-    
-    
-      <category term="JavaScript" scheme="http://yoursite.com/categories/JavaScript/"/>
-    
-    
-      <category term="new的模拟实现" scheme="http://yoursite.com/tags/new%E7%9A%84%E6%A8%A1%E6%8B%9F%E5%AE%9E%E7%8E%B0/"/>
     
   </entry>
   
