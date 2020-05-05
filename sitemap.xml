@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2020/05/05/JavaScript/currying/</loc>
+    
+    <lastmod>2020-05-05T03:25:13.671Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2020/03/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E3%80%81%E5%AE%89%E5%85%A8/cst/</loc>
+    
+    <lastmod>2020-05-04T07:30:53.087Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2020/05/03/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/JS%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</loc>
     
     <lastmod>2020-05-03T01:57:37.993Z</lastmod>
@@ -117,13 +131,6 @@
     <loc>http://yoursite.com/2020/03/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E3%80%81%E5%AE%89%E5%85%A8/%E8%B7%A8%E5%9F%9F/</loc>
     
     <lastmod>2020-03-22T06:32:26.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2020/03/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E3%80%81%E5%AE%89%E5%85%A8/cst/</loc>
-    
-    <lastmod>2020-03-20T12:01:06.194Z</lastmod>
     
   </url>
   

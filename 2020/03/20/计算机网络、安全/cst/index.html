@@ -99,7 +99,7 @@
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;03&#x2F;20&#x2F;%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E3%80%81%E5%AE%89%E5%85%A8&#x2F;cst&#x2F;cookie.jpg">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;03&#x2F;20&#x2F;%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E3%80%81%E5%AE%89%E5%85%A8&#x2F;cst&#x2F;session.jpg">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;03&#x2F;20&#x2F;%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E3%80%81%E5%AE%89%E5%85%A8&#x2F;cst&#x2F;token.jpg">
-<meta property="og:updated_time" content="2020-03-20T12:01:06.194Z">
+<meta property="og:updated_time" content="2020-05-04T07:30:53.087Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;03&#x2F;20&#x2F;%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E3%80%81%E5%AE%89%E5%85%A8&#x2F;cst&#x2F;cookie.jpg">
 
@@ -408,8 +408,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2020-03-20T20:01:06+08:00">
-                2020-03-20
+              <time title="更新于" itemprop="dateModified" datetime="2020-05-04T15:30:53+08:00">
+                2020-05-04
               </time>
             
           </span>
@@ -469,7 +469,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  529
+                  951
                 </span>
               
 
@@ -485,7 +485,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  1
+                  3
                 </span>
               
             </div>
@@ -538,11 +538,38 @@
 <li>客户端储存token, 并且每次用每次发送请求</li>
 <li>服务端验证Token并返回数据</li>
 </ol>
-<h3 id="JWT"><a href="#JWT" class="headerlink" title="JWT"></a>JWT</h3><ul>
+<h3 id="Token-的用途"><a href="#Token-的用途" class="headerlink" title="Token 的用途"></a>Token 的用途</h3><p>Token 的用途主要有三点：</p>
+<ul>
+<li>拦截无效请求，降低服务器处理压力；</li>
+<li>实现第三方 API 授权，无需每次都输入用户名密码鉴权；</li>
+<li>身份校验，防止 CSRF 攻击。</li>
+</ul>
+<h3 id="JWT"><a href="#JWT" class="headerlink" title="JWT"></a>JWT</h3><p>JSON Web Token（JWT）是非常流行的跨域身份验证解决方案。</p>
+<h4 id="JWT-构成"><a href="#JWT-构成" class="headerlink" title="JWT 构成"></a>JWT 构成</h4><ul>
 <li>头部</li>
 <li>负载</li>
 <li>签名</li>
 </ul>
+<p>下面是一串 JWT 字符串：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.EJzdDeNLOQhy-2WmXuK1B49xF17Tk0pja1tCPp81YjY</span><br></pre></td></tr></table></figure>
+
+<p>它将被解析为以下三部分：</p>
+<h5 id="HEADER-ALGORITHM-amp-TOKEN-TYPE"><a href="#HEADER-ALGORITHM-amp-TOKEN-TYPE" class="headerlink" title="HEADER: ALGORITHM &amp; TOKEN TYPE"></a>HEADER: ALGORITHM &amp; TOKEN TYPE</h5><p>JWT 头部分是一个描述 JWT 元数据的 JSON 对象：</p>
+<ul>
+<li>alg：表示加密算法，HS256 是 HMAC SHA256 的缩写</li>
+<li>typ：token 类型</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"alg"</span>: <span class="string">"HS256"</span>,</span><br><span class="line">  <span class="attr">"typ"</span>: <span class="string">"JWT"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="PAYLOAD-DATA"><a href="#PAYLOAD-DATA" class="headerlink" title="PAYLOAD: DATA"></a>PAYLOAD: DATA</h5><p>JWT 数据部分，payload 是 JWT 的主体内容部分，也是一个 JSON 字符串，包含需要传递的数据，注意 payload 部分不要存储隐私数据，防止信息泄露</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"sub"</span>: <span class="string">"1234567890"</span>,</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"John Doe"</span>,</span><br><span class="line">  <span class="attr">"iat"</span>: <span class="number">1516239022</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="VERIFY-SIGNATURE"><a href="#VERIFY-SIGNATURE" class="headerlink" title="VERIFY SIGNATURE"></a>VERIFY SIGNATURE</h5><p>JWT 签名部分是对上面两部分数据加密后生成的字符串，通过 header 指定的算法生成加密字符串，以确保数据不会被篡改。</p>
+<p>生成签名时需要使用密钥（即下方示例中的 abcdefg），密钥只保存在服务端，不能向用户公开，它是一个字符串，我们可以自由指定。</p>
+<p>生成签名时需要根据 header 中指定的签名算法，并根据下方的公式，即将 header 和 payload 的数据通过 base64加密后用 <code>.</code> 进行连接，然后通过密钥进行 SHA256 加密，由于加入了密钥，所以生成的字符串将无法被破译和篡改，只有在服务端才能还原</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">HMACSHA256(</span><br><span class="line">  base64UrlEncode(header) + <span class="string">"."</span> +</span><br><span class="line">  base64UrlEncode(payload),</span><br><span class="line">  abcdefg</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>我们可以在 <a href="https://jwt.io/" target="_blank" rel="noopener">https://jwt.io/</a> 调试 JWT 字符串</p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
 <li><a href="https://jwt.io/" target="_blank" rel="noopener">jwt</a></li>
 <li><a href="https://www.cnblogs.com/moyand/p/9047978.html" target="_blank" rel="noopener">彻底理解cookie，session，token</a></li>
@@ -679,7 +706,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-count">43</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -701,7 +728,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">64</span>
+                  <span class="site-state-item-count">65</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -757,7 +784,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#cookie、session和token"><span class="nav-number">1.</span> <span class="nav-text">cookie、session和token</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#cookie"><span class="nav-number">1.1.</span> <span class="nav-text">cookie</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#缺陷"><span class="nav-number">1.1.1.</span> <span class="nav-text">缺陷</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cookie，SessionStorage，LocalStorage"><span class="nav-number">1.1.2.</span> <span class="nav-text">Cookie，SessionStorage，LocalStorage</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#session"><span class="nav-number">1.2.</span> <span class="nav-text">session</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#过程-服务端session-客户端-sessionId"><span class="nav-number">1.2.1.</span> <span class="nav-text">过程(服务端session + 客户端 sessionId)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#token"><span class="nav-number">1.3.</span> <span class="nav-text">token</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#过程"><span class="nav-number">1.3.1.</span> <span class="nav-text">过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JWT"><span class="nav-number">1.3.2.</span> <span class="nav-text">JWT</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">1.4.</span> <span class="nav-text">参考</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#cookie、session和token"><span class="nav-number">1.</span> <span class="nav-text">cookie、session和token</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#cookie"><span class="nav-number">1.1.</span> <span class="nav-text">cookie</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#缺陷"><span class="nav-number">1.1.1.</span> <span class="nav-text">缺陷</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cookie，SessionStorage，LocalStorage"><span class="nav-number">1.1.2.</span> <span class="nav-text">Cookie，SessionStorage，LocalStorage</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#session"><span class="nav-number">1.2.</span> <span class="nav-text">session</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#过程-服务端session-客户端-sessionId"><span class="nav-number">1.2.1.</span> <span class="nav-text">过程(服务端session + 客户端 sessionId)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#token"><span class="nav-number">1.3.</span> <span class="nav-text">token</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#过程"><span class="nav-number">1.3.1.</span> <span class="nav-text">过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Token-的用途"><span class="nav-number">1.3.2.</span> <span class="nav-text">Token 的用途</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JWT"><span class="nav-number">1.3.3.</span> <span class="nav-text">JWT</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#JWT-构成"><span class="nav-number">1.3.3.1.</span> <span class="nav-text">JWT 构成</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#HEADER-ALGORITHM-amp-TOKEN-TYPE"><span class="nav-number">1.3.3.1.1.</span> <span class="nav-text">HEADER: ALGORITHM &amp; TOKEN TYPE</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#PAYLOAD-DATA"><span class="nav-number">1.3.3.1.2.</span> <span class="nav-text">PAYLOAD: DATA</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#VERIFY-SIGNATURE"><span class="nav-number">1.3.3.1.3.</span> <span class="nav-text">VERIFY SIGNATURE</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">1.4.</span> <span class="nav-text">参考</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -800,7 +827,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共45.1k字</span>
+  <span class="post-count">博客全站共46.2k字</span>
 </div>
 
 
